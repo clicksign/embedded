@@ -1,0 +1,33 @@
+{
+  "name": "embedded",
+  "version": "1.0.0",
+  "description": "Para criar o componente de assinatura:",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-jasmine-browser": "^3.0.2",
+    "gulp-jshint": "^2.1.0",
+    "gulp-uglify": "^3.0.0",
+    "jasmine": "^3.1.0",
+    "jasmine-core": "^2.99.1",
+    "jshint": "^2.9.5",
+    "phantomjs-prebuilt": "^2.1.16",
+    "plugin-error": "^1.0.1"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clicksign/embedded.git"
+  },
+  "author": "Daniel Libanori",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clicksign/embedded/issues"
+  },
+  "homepage": "https://github.com/clicksign/embedded#readme"
+}
