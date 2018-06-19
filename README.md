@@ -18,9 +18,3 @@ Para desmontar o `iframe` da DOM:
 ```javascript
 widget.unmount();
 ```
-
-Para desmontar o `iframe` e destruir o componente:
-
-```javascript
-widget.destroy();
-```
