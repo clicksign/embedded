@@ -1,5 +1,7 @@
 # Clicksign Browser Embedded
 
+## Como utilizar
+
 Para criar o componente de assinatura:
 
 ```javascript
@@ -16,3 +18,9 @@ Para desmontar o `iframe` da DOM:
 ```javascript
 widget.unmount();
 ```
+
+## Como contribuir
+
+Os testes estão escritos utilizando Jasmine Browser e estão automatizados pelo
+Gulp.  Basta instalar as dependências com `npm install` e `gulp` para testar e
+`gulp build` para compilar.
