@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Simple widget usage</title>
+    <script src='../build/embedded.js'></script>
+  </head>
+
+  <body>
+    <input id='key' />
+    <input type='button' value='Load' onclick='run()'/>
+    <div id='container' style='height: 1000px'></div>
+
+    <script type='text/javascript'>
+      var widget,
+           input = document.getElementById('key');
+
+      function run () {
+        var key = input.value;
+
+        if(widget) { widget.umount(); }
+
+        widget = new Clicksign(key);
+
+        widget.endpoint = 'http://lvh.me';
+        widget.mount('container');
+
+        widget.on('loaded', function(ev) { console.log('loaded!'); });
+        widget.on('signed', function(ev) { console.log('signed!'); });
+      };
+    </script>
+  </body>
+</html>

@@ -1,16 +1,21 @@
 Clicksign = function(key) {
   var iframe, target,
       endpoint = 'https://app.clicksign.com',
-      src = endpoint + '/sign?key=' + key,
+      origin = window.location.protocol + '//' + window.location.host,
       listen = {};
 
   var mount = function (id) {
+    path = '/sign/' + key;
+    params = '?embedded=true&origin=' + this.origin;
+
+    src = this.endpoint + path + params;
     target = document.getElementById(id);
 
     iframe = document.createElement('iframe');
     iframe.setAttribute('src', src);
+    iframe.setAttribute('style', 'width: 100%; height: 100%;');
 
-    window.addEventListener('message', trigger);
+    window.addEventListener('message', handle);
 
     return target.appendChild(iframe);
   };
@@ -20,8 +25,12 @@ Clicksign = function(key) {
     return listen[ev].push(fn);
   };
 
-  var trigger = function (ev, data) {
-    (listen[ev] || []).forEach(function(fn) { fn(data); });
+  var trigger = function (ev) {
+    (listen[ev] || []).forEach(function(fn) { fn(); });
+  };
+
+  var handle = function (ev) {
+    trigger(ev.data);
   };
 
   var unmount = function () {
@@ -39,6 +48,7 @@ Clicksign = function(key) {
 
   return {
     endpoint: endpoint,
+    origin: origin,
     mount: mount,
     unmount: unmount,
     on: on,

@@ -30,7 +30,7 @@ gulp.task('test', function(done) {
 gulp.task('build', gulp.series('clean', 'jshint', 'test', function(done) {
   gulp.src('src/**/*.js')
     .pipe(uglify())
-    .pipe(concat('embbeded.js'))
+    .pipe(concat('embedded.js'))
     .pipe(gulp.dest('build'));
 
   done();
