@@ -1,4 +1,6 @@
 describe('Widget Embedded', function() {
+  'use strict';
+
   var container, widget;
 
   beforeAll(function() {
@@ -33,13 +35,13 @@ describe('Widget Embedded', function() {
     expect(document.getElementsByTagName('iframe').length).toBe(1);
   });
 
-  it('should run auth callback', function() {
-    var auth = 0;
+  it('should run signed callback', function() {
+    var signed = 0;
 
-    widget.on('auth', function(ev) { auth++ });
-    widget.trigger('auth');
+    widget.on('signed', function(ev) { signed++ });
+    widget.trigger('signed');
 
-    expect(auth).toBe(1);
+    expect(signed).toBe(1);
   });
 
   it('should run signed callback twice', function() {
@@ -52,14 +54,14 @@ describe('Widget Embedded', function() {
     expect(signed).toBe(2);
   });
 
-  it('should run 2 changed callback', function() {
-    var changed = 0;
+  it('should run 2 signed callback', function() {
+    var signed = 0;
 
-    widget.on('changed', function(ev) { changed++ });
-    widget.on('changed', function(ev) { changed++ });
-    widget.trigger('changed');
+    widget.on('signed', function(ev) { signed++ });
+    widget.on('signed', function(ev) { signed++ });
+    widget.trigger('signed');
 
-    expect(changed).toBe(2);
+    expect(signed).toBe(2);
   });
 
   it('should remove iframe after unmount', function() {
