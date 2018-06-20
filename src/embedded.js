@@ -1,14 +1,16 @@
-Clicksign = function(key) {
+function Clicksign(key) {
+  "use strict";
+
   var iframe, target,
       endpoint = 'https://app.clicksign.com',
       origin = window.location.protocol + '//' + window.location.host,
       listen = {};
 
   var mount = function (id) {
-    path = '/sign/' + key;
-    params = '?embedded=true&origin=' + this.origin;
+    var path = '/sign/' + key,
+        params = '?embedded=true&origin=' + this.origin,
+        src = this.endpoint + path + params;
 
-    src = this.endpoint + path + params;
     target = document.getElementById(id);
 
     iframe = document.createElement('iframe');
@@ -54,4 +56,4 @@ Clicksign = function(key) {
     on: on,
     trigger: trigger
   };
-};
+}
