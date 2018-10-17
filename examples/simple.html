@@ -22,7 +22,8 @@
 
         widget = new Clicksign(key);
 
-        widget.endpoint = 'http://lvh.me';
+        widget.endpoint = 'https://sandbox.clicksign.com';
+        widget.origin = 'http://lvh.me';
         widget.mount('container');
 
         widget.on('loaded', function(ev) { console.log('loaded!'); });
