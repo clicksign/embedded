@@ -23,13 +23,17 @@ function Clicksign(key) {
     return target.appendChild(iframe);
   };
 
+  var eventName = function (ev) {
+    return ev.name || ev;
+  }
+
   var on = function (ev, fn) {
     if (!listen[ev]) { listen[ev] = []; }
     return listen[ev].push(fn);
   };
 
   var trigger = function (ev) {
-    (listen[ev] || []).forEach(function(fn) { fn(); });
+    (listen[eventName(ev)] || []).forEach(function(fn) { fn(ev.data); });
   };
 
   var handle = function (ev) {
