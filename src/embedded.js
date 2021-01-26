@@ -47,7 +47,7 @@ function Clicksign(key) {
       target = null;
       iframe = null;
 
-      window.removeEventListener('message', trigger);
+      window.removeEventListener('message', handle);
     }
 
     return true;
