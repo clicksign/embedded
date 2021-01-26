@@ -1,3 +1,9 @@
+# v1.3.0
+
+## Alterações
+- [KZ4713] Altera função removida no listen
+---
+
 # v1.2.0
 
 ## Alterações
