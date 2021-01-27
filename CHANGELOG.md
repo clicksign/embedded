@@ -1,7 +1,7 @@
 # v1.3.0
 
 ## Alterações
-- [KZ4713] Altera função removida no listen
+- [KZ4713] Altera função a ser removida no eventListen
 ---
 
 # v1.2.0
