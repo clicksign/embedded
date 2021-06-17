@@ -24,3 +24,7 @@ widget.unmount();
 Os testes estão escritos utilizando Jasmine Browser e estão automatizados pelo
 Gulp.  Basta instalar as dependências com `npm install` e `gulp` para testar e
 `gulp build` para compilar.
+
+## Suporte
+
+Em caso de dúvidas ou problemas, envie um e-mail para ajuda@clicksign.com.
