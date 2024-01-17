@@ -1,6 +1,4 @@
 export default class Clicksign {
-  #url = 'https://app.clicksign.com';
-
   #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
 
   #defaultStyles = 'width: 100%; height: 100%;';
@@ -9,6 +7,7 @@ export default class Clicksign {
     this.key = key;
     this.origin = `${window.location.protocol}://${window.location.host}`;
     this.listen = {};
+    this.endpoint = 'https://app.clicksign.com';
   }
 
   mount(id) {
@@ -49,12 +48,8 @@ export default class Clicksign {
     return true;
   }
 
-  get url() {
-    return this.#url;
-  }
-
   get source() {
-    return `${this.#url}${this.path}${this.params}`;
+    return `${this.endpoint}${this.path}${this.params}`;
   }
 
   get params() {

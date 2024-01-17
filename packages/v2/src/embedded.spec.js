@@ -39,7 +39,7 @@ describe('Clicksign Embedded', () => {
   it('should initialize properly', () => {
     expect(instance.key).toBe(signatureKey);
     expect(instance.origin).toBe(originUrl);
-    expect(instance.url).toBe(applicationUrl);
+    expect(instance.endpoint).toBe(applicationUrl);
     expect(instance.source).toBe(signatureUrl);
   });
 
