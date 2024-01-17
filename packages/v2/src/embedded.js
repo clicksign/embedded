@@ -1,7 +1,9 @@
 export default class Clicksign {
-  #url = 'https://app.clicksign.com'
-  #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer'
-  #defaultStyles = 'width: 100%; height: 100%;'
+  #url = 'https://app.clicksign.com';
+
+  #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
+
+  #defaultStyles = 'width: 100%; height: 100%;';
 
   constructor(key) {
     this.key = key;
@@ -17,13 +19,13 @@ export default class Clicksign {
     this.iframe.setAttribute('style', this.#defaultStyles);
     this.iframe.setAttribute('allow', this.#allowed);
 
-    window.addEventListener('message', this.#eventHandler)
+    window.addEventListener('message', this.#eventHandler);
 
     return this.target.appendChild(this.iframe);
   }
 
   on(event, fn) {
-    if (!this.listen[event]) { this.listen[event] = [] };
+    if (!this.listen[event]) { this.listen[event] = []; }
 
     return this.listen[event].push(fn);
   }
@@ -36,19 +38,19 @@ export default class Clicksign {
 
   unmount() {
     if (this.iframe) {
-      this.target.removeChild(this.iframe)
+      this.target.removeChild(this.iframe);
 
       this.target = null;
       this.iframe = null;
 
-      window.removeEventListener('message', this.eventHandler)
+      window.removeEventListener('message', this.#eventHandler);
     }
 
     return true;
   }
 
   get url() {
-    return this.#url
+    return this.#url;
   }
 
   get source() {
@@ -64,14 +66,11 @@ export default class Clicksign {
   }
 
   #eventHandler(event) {
-    this.trigger(event)
+    this.trigger(event);
   }
 
   #eventsFor(event) {
-    return this.listen[this.#eventName(event)] || []
-  }
-
-  #eventName(event) {
-    return event.name || event;
+    const eventName = event.name || event;
+    return this.listen[eventName] || [];
   }
 }

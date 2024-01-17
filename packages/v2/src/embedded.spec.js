@@ -12,29 +12,29 @@ function createContainer() {
   document.body.appendChild(element);
 }
 
-Object.defineProperty(window, "location", {
+Object.defineProperty(window, 'location', {
   value: {
     href: originUrl,
     protocol: 'https',
-    host: 'example.com'
+    host: 'example.com',
   },
-  writable: true
+  writable: true,
 });
 
 describe('Clicksign Embedded', () => {
-  const instance = new Clicksign(signatureKey)
+  const instance = new Clicksign(signatureKey);
 
   beforeEach(() => {
     jest.restoreAllMocks();
 
     createContainer();
 
-    instance.mount(containerElementId)
+    instance.mount(containerElementId);
   });
 
   afterEach(() => {
-    instance.unmount()
-  })
+    instance.unmount();
+  });
 
   it('should initialize properly', () => {
     expect(instance.key).toBe(signatureKey);
@@ -54,14 +54,14 @@ describe('Clicksign Embedded', () => {
     const containerElement = document.getElementById(containerElementId);
 
     expect(containerElement.children.length).toEqual(1);
-    expect(instance.iframe).not.toBeNull()
-    expect(instance.target).not.toBeNull()
+    expect(instance.iframe).not.toBeNull();
+    expect(instance.target).not.toBeNull();
 
-    instance.unmount()
+    instance.unmount();
     expect(containerElement.children.length).toEqual(0);
-    expect(instance.iframe).toBeNull()
-    expect(instance.target).toBeNull()
-  })
+    expect(instance.iframe).toBeNull();
+    expect(instance.target).toBeNull();
+  });
 
   describe('Emitting events', () => {
     const eventMock = jest.fn();
@@ -77,6 +77,6 @@ describe('Clicksign Embedded', () => {
         instance.trigger(eventName);
         expect(eventMock).toHaveBeenCalled();
       });
-    })
+    });
   });
-})
+});
