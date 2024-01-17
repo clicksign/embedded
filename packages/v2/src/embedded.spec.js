@@ -12,10 +12,6 @@ function createContainer() {
   document.body.appendChild(element);
 }
 
-function initInstance() {
-  return new Clicksign(signatureKey);
-};
-
 Object.defineProperty(window,  "location", {
   value: {
     href: originUrl,
@@ -26,35 +22,48 @@ Object.defineProperty(window,  "location", {
 });
 
 describe('Clicksign', () => {
+  const instance = new Clicksign(signatureKey)
+
   beforeEach(() => {
     jest.restoreAllMocks();
 
     createContainer();
+
+    instance.mount(containerElementId)
   });
 
-  it('should initialize properly', () => {
-    const instance = initInstance();
+  afterEach(() => {
+    instance.unmount()
+  })
 
+  it('should initialize properly', () => {
     expect(instance.key).toBe(signatureKey);
     expect(instance.origin).toBe(originUrl);
-    expect(instance.endpoint).toBe(applicationUrl);
+    expect(instance.url).toBe(applicationUrl);
     expect(instance.source).toBe(signatureUrl);
   });
 
-  it('should mount widget on specified element', () => {
-    const instance = initInstance();
-    instance.mount(containerElementId);
-
+  it('should mount widget on the specified element', () => {
     const iframeElement = document.getElementById(containerElementId).children[0];
 
     expect(iframeElement.tagName).toBe('IFRAME');
     expect(iframeElement).toHaveProperty('src', signatureUrl);
   });
 
-  it.skip('should emit loaded event', () => {
-    const instance = initInstance();
-    instance.mount(containerElementId);
+  it('should unmount widget on the specified element', () => {
+    const containerElement = document.getElementById(containerElementId);
 
+    expect(containerElement.children.length).toEqual(1);
+    expect(instance.iframe).not.toBeNull()
+    expect(instance.target).not.toBeNull()
+
+    instance.unmount()
+    expect(containerElement.children.length).toEqual(0);
+    expect(instance.iframe).toBeNull()
+    expect(instance.target).toBeNull()
+  })
+
+  it('should emit loaded event', () => {
     const eventMock = jest.fn();
     instance.on('loaded', eventMock);
 
