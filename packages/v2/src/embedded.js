@@ -57,7 +57,7 @@ export default class Clicksign {
   }
 
   get path() {
-    return `/notarial/compat/request/${this.key}`;
+    return `/notarial/compat/requests/${this.key}`;
   }
 
   #eventHandler(event) {
