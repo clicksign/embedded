@@ -10,6 +10,10 @@ export default class Clicksign {
     this.endpoint = 'https://app.clicksign.com';
   }
 
+  eventHandler(event) {
+    this.trigger(event);
+  }
+
   mount(id) {
     this.target = document.getElementById(id);
 
@@ -18,7 +22,7 @@ export default class Clicksign {
     this.iframe.setAttribute('style', this.#defaultStyles);
     this.iframe.setAttribute('allow', this.#allowed);
 
-    window.addEventListener('message', this.#eventHandler);
+    window.addEventListener('message', this.eventHandler);
 
     return this.target.appendChild(this.iframe);
   }
@@ -42,7 +46,7 @@ export default class Clicksign {
       this.target = null;
       this.iframe = null;
 
-      window.removeEventListener('message', this.#eventHandler);
+      window.removeEventListener('message', this.eventHandler);
     }
 
     return true;
@@ -58,10 +62,6 @@ export default class Clicksign {
 
   get path() {
     return `/notarial/compat/requests/${this.key}`;
-  }
-
-  #eventHandler(event) {
-    this.trigger(event);
   }
 
   #eventsFor(event) {
