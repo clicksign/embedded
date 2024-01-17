@@ -1,46 +1,63 @@
-import Clicksign from './embedded'
+import Clicksign from './embedded';
+
+const containerElementId = 'widget';
+const signatureKey = 'foobar123';
+const originUrl = 'https://example.com';
+const applicationUrl = 'https://app.clicksign.com';
+const signatureUrl = `${applicationUrl}/notarial/compat/request/${signatureKey}?embedded=true&origin=${originUrl}`;
+
+function createContainer() {
+  const element = document.createElement('div');
+  element.setAttribute('id', containerElementId);
+  document.body.appendChild(element);
+}
+
+function initInstance() {
+  return new Clicksign(signatureKey);
+};
+
+Object.defineProperty(window,  "location", {
+  value: {
+    href: originUrl,
+    protocol: 'https',
+    host: 'example.com'
+  },
+  writable: true
+});
 
 describe('Clicksign', () => {
-  const url = "https://example.com";
+  beforeEach(() => {
+    jest.restoreAllMocks();
 
-  // beforeEach(() => {
-  //   let window = Object.create({})
-  //   global.window = Object.create(window);
-  //
-  //   Object.defineProperty(window,  "location", {
-  //     value: {
-  //       href: url,
-  //       protocol: 'https',
-  //       host: 'example.com'
-  //     },
-  //     writable: true
-  //   });
-  //
-  //   Object.defineProperty(window, "parent", {
-  //     value: {
-  //       document: null,
-  //     },
-  //     configurable: true,
-  //   })
-  //
-  //   jest.restoreAllMocks()
-  //   jest.spyOn(window, 'parent', 'get').mockReturnValue(Object.create(window));
-  //   jest.spyOn(window.parent, 'document', 'get').mockReturnValue(Object.create(window.document));
-  //   jest.spyOn(window.parent.document, 'body', 'get').mockReturnValue(document.createElement('body'));
-  //   jest.stubGlobal('frameElement', document.createElement('iframe'));
-  // });
-  //
-  // afterEach(() => {
-  //   delete global.window;
-  // });
+    createContainer();
+  });
 
   it('should initialize properly', () => {
-    let key = 'foobar123'
-    let instance = new Clicksign(key)
+    const instance = initInstance();
 
-    expect(instance.key).toBe(key);
-    expect(instance.origin).toBe(url)
-    expect(instance.endpoint).toBe('https://app.clicksign.com')
-    expect(instance.source).toBe(`https://app.clicksign.com/sign/${key}?embedded=true&origin=${url}`)
-  })
+    expect(instance.key).toBe(signatureKey);
+    expect(instance.origin).toBe(originUrl);
+    expect(instance.endpoint).toBe(applicationUrl);
+    expect(instance.source).toBe(signatureUrl);
+  });
+
+  it('should mount widget on specified element', () => {
+    const instance = initInstance();
+    instance.mount(containerElementId);
+
+    const iframeElement = document.getElementById(containerElementId).children[0];
+
+    expect(iframeElement.tagName).toBe('IFRAME');
+    expect(iframeElement).toHaveProperty('src', signatureUrl);
+  });
+
+  it.skip('should emit loaded event', () => {
+    const instance = initInstance();
+    instance.mount(containerElementId);
+
+    const eventMock = jest.fn();
+    instance.on('loaded', eventMock);
+
+    expect(eventMock).toHaveBeenCalled();
+  });
 })
