@@ -10,6 +10,17 @@ export default class Clicksign {
     this.endpoint = 'https://app.clicksign.com';
   }
 
+  eventsFor(event) {
+    const eventName = event.name || event;
+    return this.listen[eventName] || [];
+  }
+
+  trigger(event) {
+    this.eventsFor(event).forEach((fn) => {
+      fn(event.data);
+    });
+  }
+
   eventHandler(event) {
     this.trigger(event);
   }
@@ -31,12 +42,6 @@ export default class Clicksign {
     if (!this.listen[event]) { this.listen[event] = []; }
 
     return this.listen[event].push(fn);
-  }
-
-  trigger(event) {
-    this.#eventsFor(event).forEach((fn) => {
-      fn(event.data);
-    });
   }
 
   unmount() {
@@ -62,10 +67,5 @@ export default class Clicksign {
 
   get path() {
     return `/notarial/compat/requests/${this.key}`;
-  }
-
-  #eventsFor(event) {
-    const eventName = event.name || event;
-    return this.listen[eventName] || [];
   }
 }
