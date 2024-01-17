@@ -17,12 +17,13 @@ export default class Clicksign {
     this.iframe.setAttribute('style', this.#defaultStyles);
     this.iframe.setAttribute('allow', this.#allowed);
 
-    window.addEventListener('message', this.eventHandler)
+    window.addEventListener('message', this.#eventHandler)
 
     return this.target.appendChild(this.iframe);
   }
+
   on(event, fn) {
-    if(!this.listen[event]) { this.listen[event] = [] };
+    if (!this.listen[event]) { this.listen[event] = [] };
 
     return this.listen[event].push(fn);
   }
@@ -46,10 +47,6 @@ export default class Clicksign {
     return true;
   }
 
-  eventHandler(event) {
-    this.trigger(event)
-  }
-
   get url() {
     return this.#url
   }
@@ -65,9 +62,15 @@ export default class Clicksign {
   get path() {
     return `/notarial/compat/request/${this.key}`;
   }
+
+  #eventHandler(event) {
+    this.trigger(event)
+  }
+
   #eventsFor(event) {
     return this.listen[this.#eventName(event)] || []
   }
+
   #eventName(event) {
     return event.name || event;
   }

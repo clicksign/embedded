@@ -12,7 +12,7 @@ function createContainer() {
   document.body.appendChild(element);
 }
 
-Object.defineProperty(window,  "location", {
+Object.defineProperty(window, "location", {
   value: {
     href: originUrl,
     protocol: 'https',
@@ -21,7 +21,7 @@ Object.defineProperty(window,  "location", {
   writable: true
 });
 
-describe('Clicksign', () => {
+describe('Clicksign Embedded', () => {
   const instance = new Clicksign(signatureKey)
 
   beforeEach(() => {
@@ -63,10 +63,20 @@ describe('Clicksign', () => {
     expect(instance.target).toBeNull()
   })
 
-  it('should emit loaded event', () => {
+  describe('Emitting events', () => {
     const eventMock = jest.fn();
-    instance.on('loaded', eventMock);
 
-    expect(eventMock).toHaveBeenCalled();
+    ['loaded', 'resized', 'signed'].forEach((eventName) => {
+      it(`should register event ${eventName} listening successfully`, () => {
+        instance.on(eventName, eventMock);
+
+        expect(instance.listen).toHaveProperty(eventName);
+      });
+
+      it(`should emit ${eventName} event`, () => {
+        instance.trigger(eventName);
+        expect(eventMock).toHaveBeenCalled();
+      });
+    })
   });
 })
