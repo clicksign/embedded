@@ -4,6 +4,7 @@
   "engines": {
     "node": "^18.18.0"
   },
+  "main": "index.js",
   "dependencies": {},
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
