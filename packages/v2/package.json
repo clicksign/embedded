@@ -1,11 +1,11 @@
 {
   "name": "@clicksign/embedded",
   "version": "2.0.0",
-  "dependencies": {
-    "esbuild": "^0.19.11"
+  "engines": {
+    "node": "^18.18.0"
   },
+  "dependencies": {},
   "scripts": {
-    "build": "esbuild packages/v2/src/*.* --bundle --sourcemap --outdir=build/v2",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "devDependencies": {
