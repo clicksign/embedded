@@ -11,7 +11,7 @@ export default class Clicksign {
   }
 
   eventsFor(event) {
-    const eventName = event.name || event.data.name || event.data || event;
+    const eventName = event.name || event.data?.name || event.data || event;
     return this.listen[eventName] || [];
   }
 

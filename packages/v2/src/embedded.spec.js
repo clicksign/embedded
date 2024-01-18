@@ -65,18 +65,17 @@ describe('Clicksign Embedded', () => {
 
   describe('Emitting events', () => {
     const eventMock = jest.fn();
+    const events = ['loaded', 'resized', 'signed'];
 
-    ['loaded', 'resized', 'signed'].forEach((eventName) => {
-      it(`should register event ${eventName} listening successfully`, () => {
-        instance.on(eventName, eventMock);
+    it.each(events)('should register event eventName=%s listening successfully', (eventName) => {
+      instance.on(eventName, eventMock);
 
-        expect(instance.listen).toHaveProperty(eventName);
-      });
+      expect(instance.listen).toHaveProperty(eventName);
+    });
 
-      it(`should emit ${eventName} event`, () => {
-        instance.eventHandler(eventName);
-        expect(eventMock).toHaveBeenCalled();
-      });
+    it.each(events)('should emit eventName=%s event', (eventName) => {
+      instance.eventHandler(eventName);
+      expect(eventMock).toHaveBeenCalled();
     });
   });
 });
