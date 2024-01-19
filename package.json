@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Para criar o componente de assinatura:",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "engines": {
+    "node": "^18.18.0"
+  },
   "devDependencies": {
     "del": "^3.0.0",
+    "esbuild": "^0.19.11",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-jasmine-browser": "^3.0.2",
@@ -18,7 +21,9 @@
     "plugin-error": "^1.0.1"
   },
   "scripts": {
-    "test": "gulp"
+    "test": "gulp",
+    "build:v1": "gulp build",
+    "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --outfile=build/v2/embedded.js"
   },
   "repository": {
     "type": "git",
