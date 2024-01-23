@@ -1,0 +1,22 @@
+---
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "yarn"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "yarn"
+    directory: "/packages/v1"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "yarn"
+    directory: "/packages/v2"
+    schedule:
+      interval: "daily"
