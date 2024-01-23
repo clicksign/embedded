@@ -31,7 +31,7 @@ jobs:
           echo "::set-output name=dir-v2::$(yarn cache dir)"
 
       - name: Cache Node Modules V1
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             packages/v1/node_modules
@@ -41,7 +41,7 @@ jobs:
             embedded-yarn-
 
       - name: Cache Node Modules V2
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             packages/v1/node_modules
