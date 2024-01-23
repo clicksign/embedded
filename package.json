@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "gulp",
-    "build:v1": "gulp build",
+    "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
     "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --outfile=build/v2/embedded.js"
   },
   "repository": {

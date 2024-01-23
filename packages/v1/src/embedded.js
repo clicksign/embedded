@@ -62,3 +62,5 @@ function Clicksign(key) {
     trigger: trigger
   };
 }
+
+globalThis.Clicksign = Clicksign;
