@@ -1,27 +1,14 @@
 {
   "name": "embedded",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Para criar o componente de assinatura:",
-  "main": "gulpfile.js",
   "engines": {
     "node": "^18.18.0"
   },
   "devDependencies": {
-    "del": "^3.0.0",
-    "esbuild": "^0.19.11",
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-jasmine-browser": "^3.0.2",
-    "gulp-jshint": "^2.1.0",
-    "gulp-uglify": "^3.0.2",
-    "jasmine": "^3.6.1",
-    "jasmine-core": "^2.99.1",
-    "jshint": "^2.11.2",
-    "phantomjs-prebuilt": "^2.1.16",
-    "plugin-error": "^1.0.1"
+    "esbuild": "^0.19.11"
   },
   "scripts": {
-    "test": "gulp",
     "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
     "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --outfile=build/v2/embedded.js"
   },
