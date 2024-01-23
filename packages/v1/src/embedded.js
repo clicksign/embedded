@@ -25,7 +25,7 @@ function Clicksign(key) {
 
   var eventName = function (ev) {
     return ev.name || ev;
-  }
+  };
 
   var on = function (ev, fn) {
     if (!listen[ev]) { listen[ev] = []; }
@@ -62,3 +62,5 @@ function Clicksign(key) {
     trigger: trigger
   };
 }
+
+globalThis.Clicksign = Clicksign;

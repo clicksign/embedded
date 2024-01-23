@@ -38,7 +38,7 @@ describe('Widget Embedded', function() {
   it('should run signed callback', function() {
     var signed = 0;
 
-    widget.on('signed', function(ev) { signed++ });
+    widget.on('signed', function(ev) { signed++; });
     widget.trigger('signed');
 
     expect(signed).toBe(1);
@@ -47,7 +47,7 @@ describe('Widget Embedded', function() {
   it('should run signed callback twice', function() {
     var signed = 0;
 
-    widget.on('signed', function(ev) { signed++ });
+    widget.on('signed', function(ev) { signed++; });
     widget.trigger('signed');
     widget.trigger('signed');
 
@@ -57,8 +57,8 @@ describe('Widget Embedded', function() {
   it('should run 2 signed callback', function() {
     var signed = 0;
 
-    widget.on('signed', function(ev) { signed++ });
-    widget.on('signed', function(ev) { signed++ });
+    widget.on('signed', function(ev) { signed++; });
+    widget.on('signed', function(ev) { signed++; });
     widget.trigger('signed');
 
     expect(signed).toBe(2);

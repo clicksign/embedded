@@ -1,0 +1,69 @@
+---
+name: Linter
+
+on: [pull_request]
+
+jobs:
+  lint:
+    name: "Linter"
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup node 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Get Yarn Cache Dir Path
+        id: yarn-cache-dir-path
+        run: |
+          cd packages/v1
+          echo "::set-output name=dir-v1::$(yarn cache dir)"
+          cd ../../packages/v2
+          echo "::set-output name=dir-v2::$(yarn cache dir)"
+
+      - name: Cache Node Modules V1
+        uses: actions/cache@v3
+        with:
+          path: |
+            packages/v1/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir-v1 }}
+          key: embedded-yarn-${{ hashFiles('packages/v1/yarn.lock') }}
+          restore-keys: |
+            embedded-yarn-
+
+      - name: Cache Node Modules V2
+        uses: actions/cache@v3
+        with:
+          path: |
+            packages/v1/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir-v2 }}
+          key: embedded-yarn-${{ hashFiles('packages/v2/yarn.lock') }}
+          restore-keys: |
+            embedded-yarn-
+
+      - name: Install Dependencies v1
+        run: |
+          cd packages/v1
+          yarn install --frozen-lockfile --silent
+
+      - name: Install Dependencies v2
+        run: |
+          cd packages/v2
+          yarn install --frozen-lockfile --silent
+
+      - name: Run Lint v1
+        run: |
+          cd packages/v1 && yarn lint
+
+      - name: Run Lint v2
+        run: |
+          cd packages/v2 && yarn lint
