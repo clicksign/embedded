@@ -6,6 +6,10 @@ function Clicksign(key) {
       origin = window.location.protocol + '//' + window.location.host,
       listen = {};
 
+  var handle = function (ev) {
+    trigger(ev.data);
+  };
+
   var mount = function (id) {
     var path = '/sign/' + key,
         params = '?embedded=true&origin=' + this.origin,
@@ -34,10 +38,6 @@ function Clicksign(key) {
 
   var trigger = function (ev) {
     (listen[eventName(ev)] || []).forEach(function(fn) { fn(ev.data); });
-  };
-
-  var handle = function (ev) {
-    trigger(ev.data);
   };
 
   var unmount = function () {
