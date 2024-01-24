@@ -6,7 +6,7 @@
     "node": "^18.18.0"
   },
   "devDependencies": {
-    "esbuild": "^0.19.11"
+    "esbuild": "^0.19.12"
   },
   "scripts": {
     "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
