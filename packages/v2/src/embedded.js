@@ -60,6 +60,6 @@ export default class Clicksign {
   }
 
   get path() {
-    return `/notarial/compat/requests/${this.key}`;
+    return `/notarial/widget/signatures/${this.key}/redirect`;
   }
 }
