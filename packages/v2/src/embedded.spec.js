@@ -4,7 +4,7 @@ const containerElementId = 'widget';
 const signatureKey = 'foobar123';
 const originUrl = 'https://example.com';
 const applicationUrl = 'https://app.clicksign.com';
-const signatureUrl = `${applicationUrl}/notarial/compat/requests/${signatureKey}?embedded=true&origin=${originUrl}`;
+const signatureUrl = `${applicationUrl}/notarial/widget/signatures/${signatureKey}/redirect?embedded=true&origin=${originUrl}`;
 
 function createContainer() {
   const element = document.createElement('div');
