@@ -7,7 +7,7 @@
     "node": "^18.18.0"
   },
   "devDependencies": {
-    "jasmine": "^5.1.0",
+    "jasmine": "^5.8.0",
     "jasmine-browser-runner": "^2.4.0",
     "jasmine-core": "^5.1.2",
     "jshint": "^2.13.6"
