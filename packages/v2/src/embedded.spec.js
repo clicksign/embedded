@@ -2,24 +2,15 @@ import Clicksign from './embedded';
 
 const containerElementId = 'widget';
 const signatureKey = 'foobar123';
-const originUrl = 'https://example.com';
+const originUrl = `${window.location.protocol}://${window.location.host}`;
 const applicationUrl = 'https://app.clicksign.com';
-const signatureUrl = `${applicationUrl}/notarial/compat/requests/${signatureKey}?embedded=true&origin=${originUrl}`;
+const signatureUrl = `${applicationUrl}/notarial/widget/signatures/${signatureKey}/redirect?embedded=true&origin=${originUrl}`;
 
 function createContainer() {
   const element = document.createElement('div');
   element.setAttribute('id', containerElementId);
   document.body.appendChild(element);
 }
-
-Object.defineProperty(window, 'location', {
-  value: {
-    href: originUrl,
-    protocol: 'https',
-    host: 'example.com',
-  },
-  writable: true,
-});
 
 describe('Clicksign Embedded', () => {
   const instance = new Clicksign(signatureKey);
