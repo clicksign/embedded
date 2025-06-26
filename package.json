@@ -1,6 +1,6 @@
 {
   "name": "embedded",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Para criar o componente de assinatura:",
   "engines": {
     "node": "^18.18.0"
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
-    "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --outfile=build/v2/embedded.js"
+    "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v2/embedded.js"
   },
   "repository": {
     "type": "git",
