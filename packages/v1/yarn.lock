@@ -574,18 +574,18 @@ jasmine-browser-runner@^3.0.0:
     glob "^10.0.0"
     selenium-webdriver "^4.12.0"
 
-jasmine-core@^5.8.0, jasmine-core@~5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.8.0.tgz#8a68b7b209b06c2247d67490bca8604c2fa498cd"
-  integrity sha512-Q9dqmpUAfptwyueW3+HqBOkSuYd9I/clZSSfN97wXE/Nr2ROFNCwIBEC1F6kb3QXS9Fcz0LjFYSDQT+BiwjuhA==
+jasmine-core@^5.8.0, jasmine-core@~5.12.0:
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.12.0.tgz#a0cd016483756e9537ba354c52a4ec6d8e9e7951"
+  integrity sha512-QqO4pX33GEML5JoGQU6BM5NHKPgEsg+TXp3jCIDek9MbfEp2JUYEFBo9EF1+hegWy/bCHS1m5nP0BOp18G6rVA==
 
-jasmine@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-5.8.0.tgz#63a7ebe6687bc0ec80d2264a375ed82144a305c6"
-  integrity sha512-1V6HGa0+TMoMY20+/vp++RqLlL1noupV8awzV6CiPuICC0g7iKZ9z87zV2KyelRyoig0G1lHn7ueElXVMGVagg==
+jasmine@^5.12.0:
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-5.12.0.tgz#dc84b0caf8500b920faf13d6e611b0144513b480"
+  integrity sha512-KmKeTNuH8rgAuPRL5AUsXWSdJVlDu+pgqi2dLXoZUSH/g3kR+7Ho8B7hEhwDu0fu1PLuiXZtfaxmQ/mB5wqihw==
   dependencies:
     glob "^10.2.2"
-    jasmine-core "~5.8.0"
+    jasmine-core "~5.12.0"
 
 jshint@^2.13.6:
   version "2.13.6"
