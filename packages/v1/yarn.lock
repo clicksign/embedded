@@ -574,7 +574,12 @@ jasmine-browser-runner@^3.0.0:
     glob "^10.0.0"
     selenium-webdriver "^4.12.0"
 
-jasmine-core@^5.8.0, jasmine-core@~5.8.0:
+jasmine-core@^5.12.1:
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.12.1.tgz#17961990e04a7f7ffafa0e1488875cc9b9d51de3"
+  integrity sha512-P/UbRZ0LKwXe7wEpwDheuhunPwITn4oPALhrJEQJo6756EwNGnsK/TSQrWojBB4cQDQ+VaxWYws9tFNDuiMh2Q==
+
+jasmine-core@~5.8.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.8.0.tgz#8a68b7b209b06c2247d67490bca8604c2fa498cd"
   integrity sha512-Q9dqmpUAfptwyueW3+HqBOkSuYd9I/clZSSfN97wXE/Nr2ROFNCwIBEC1F6kb3QXS9Fcz0LjFYSDQT+BiwjuhA==
