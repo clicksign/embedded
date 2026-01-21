@@ -38,7 +38,6 @@ session.start('container-id');
 ```javascript
 // Estrutura do payload do evento de sucesso:
 {
-  authentication: AuthenticationType,
   created_at: string,       // ISO 8601 date string
   evidences: [
     { url: string }         // S3 presigned URL
@@ -54,7 +53,6 @@ session.start('container-id');
 
 // Exemplo:
 {
-  authentication: 'liveness',
   created_at: '2026-01-21T14:30:00.000Z',
   evidences: [
     { url: 'https://s3.amazonaws.com/bucket/evidence.jpg?presigned=token' }
