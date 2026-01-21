@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
-    "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v2/embedded.js"
+    "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v2/embedded.js",
+    "build:identity-authenticator": "esbuild packages/identity-authenticator/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/identity-authenticator/embedded.js"
   },
   "repository": {
     "type": "git",

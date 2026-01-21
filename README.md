@@ -19,6 +19,82 @@ Para desmontar o `iframe` da DOM:
 widget.unmount();
 ```
 
+### Identity Authenticator
+
+Para criar o componente de autenticação de identidade:
+
+```javascript
+session = new AuthSession('d973213c-6411-11e8-8df5-7cd1c3e91b23');
+
+session.on('loaded', ev => { console.log(ev); })
+session.on('success', ev => { console.log(ev); })
+session.on('error', ev => { console.log(ev); })
+
+session.start('container-id');
+```
+
+#### Exemplo de Resultado do Evento de Sucesso
+
+```javascript
+// Estrutura do payload do evento de sucesso:
+{
+  authentication: AuthenticationType,
+  created_at: string,       // ISO 8601 date string
+  evidences: [
+    { url: string }         // S3 presigned URL
+  ],
+  finished_at: string,      // ISO 8601 date string
+  id: string,               // UUID
+  result: {
+    is_valid: boolean
+  },
+  status: 'CREATED' | 'PROCESSED' | 'FAILED',
+  updated_at: string        // ISO 8601 date string
+}
+
+// Exemplo:
+{
+  authentication: 'liveness',
+  created_at: '2026-01-21T14:30:00.000Z',
+  evidences: [
+    { url: 'https://s3.amazonaws.com/bucket/evidence.jpg?presigned=token' }
+  ],
+  finished_at: '2026-01-21T14:31:00.000Z',
+  id: 'd973213c-6411-11e8-8df5-7cd1c3e91b23',
+  result: {
+    is_valid: true
+  },
+  status: 'PROCESSED',
+  updated_at: '2026-01-21T14:31:00.000Z'
+}
+```
+
+#### Exemplo de Resultado do Evento de Erro
+
+```javascript
+// Estrutura do payload do evento de erro:
+{
+  code: 'LivenessFailed' | 'CameraPermissionDenied' | 'LivenessError',
+  details: {
+    message: string
+  }
+}
+
+// Exemplo:
+{
+  code: 'CameraPermissionDenied',
+  details: {
+    message: 'Usuário negou acesso à câmera'
+  }
+}
+```
+
+Para desmontar o `iframe` da DOM:
+
+```javascript
+session.unmount();
+```
+
 ## Como contribuir
 
 Os testes estão escritos utilizando Jasmine Browser e estão automatizados pelo
