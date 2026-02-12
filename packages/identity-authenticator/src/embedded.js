@@ -8,6 +8,7 @@ export default class AuthSession {
     this.origin = `${window.location.protocol}://${window.location.host}`;
     this.listen = {};
     this.endpoint = 'https://app-workspaces-1.clicksign.dev/identity_authenticator';
+    this.locale = '';
   }
 
   eventsFor(event) {
@@ -50,9 +51,9 @@ export default class AuthSession {
 
     return true;
   }
-  
+
   get source() {
-    return `${this.endpoint}${this.path}${this.params}`;
+    return `${this.endpoint}${this.localePath}${this.path}${this.params}`;
   }
 
   get params() {
@@ -61,5 +62,9 @@ export default class AuthSession {
 
   get path() {
     return `/sessions/${this.key}`;
+  }
+
+  get localePath() {
+    return this.locale ? `/${this.locale}` : '';
   }
 }
