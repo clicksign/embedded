@@ -1,3 +1,11 @@
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import AuthSession from './embedded';
 
 const containerElementId = 'widget';
@@ -90,7 +98,7 @@ describe('AuthSession', () => {
   });
 
   describe('Events', () => {
-    const eventMock = jest.fn();
+    const eventMock = vi.fn();
     const events = ['loaded', 'completed', 'error'];
 
     it.each(events)('should register event "%s" listening successfully', (event) => {
@@ -109,16 +117,16 @@ describe('AuthSession', () => {
     });
 
     it('should return registration index from on()', () => {
-      const callbackA = jest.fn();
-      const callbackB = jest.fn();
+      const callbackA = vi.fn();
+      const callbackB = vi.fn();
 
       expect(instance.on('loaded', callbackA)).toBe(1);
       expect(instance.on('loaded', callbackB)).toBe(2);
     });
 
     it('should call all listeners for same event', () => {
-      const callbackA = jest.fn();
-      const callbackB = jest.fn();
+      const callbackA = vi.fn();
+      const callbackB = vi.fn();
       const payload = { name: 'loaded', metadata: 'sample' };
 
       instance.on('loaded', callbackA);
@@ -130,7 +138,7 @@ describe('AuthSession', () => {
     });
 
     it('should resolve event name from event.name', () => {
-      const callback = jest.fn();
+      const callback = vi.fn();
       const payload = { metadata: 'sample' };
 
       instance.on('completed', callback);
@@ -140,7 +148,7 @@ describe('AuthSession', () => {
     });
 
     it('should resolve event name from event.data string', () => {
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       instance.on('error', callback);
       instance.eventHandler({ data: 'error' });
@@ -149,7 +157,7 @@ describe('AuthSession', () => {
     });
 
     it('should resolve event name from plain string event', () => {
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       instance.on('loaded', callback);
       instance.eventHandler('loaded');
