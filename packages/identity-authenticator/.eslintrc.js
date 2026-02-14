@@ -1,31 +1,42 @@
 module.exports = {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "jest/globals": true
+  env: {
+    browser: true,
+    es2021: true,
   },
-  "extends": [
-    "eslint:recommended",
-    "airbnb-base"
+  extends: [
+    'eslint:recommended',
+    'airbnb-base',
   ],
-  "overrides": [
+  overrides: [
     {
-      "env": {
-        "node": true
+      env: {
+        node: true,
       },
-      "files": [
-        ".eslintrc.{js,cjs}"
-      ],
-      "parserOptions": {
-        "sourceType": "script"
-      }
-    }
+      files: ['.eslintrc.{js,cjs}'],
+      parserOptions: {
+        sourceType: 'script',
+      },
+    },
+    {
+      files: ['src/**/*.spec.js'],
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+      },
+    },
   ],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  "rules": {
+  rules: {
   },
-  "plugins": ["jest"]
-}
+  plugins: ['vitest'],
+};

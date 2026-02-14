@@ -1,11 +1,3 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
 import AuthSession from './embedded';
 
 const containerElementId = 'widget';
