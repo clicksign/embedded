@@ -37,48 +37,51 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Get Yarn Cache Dir Path
-        id: yarn-cache-dir-path
+      - name: Activate pnpm
+        run: corepack prepare pnpm@latest --activate
+
+      - name: Get pnpm Store Dir Path
+        id: pnpm-cache-dir-path
         run: |
           cd packages/v1
-          echo "::set-output name=dir-v1::$(yarn cache dir)"
+          echo "dir-v1=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
           cd ../../packages/v2
-          echo "::set-output name=dir-v2::$(yarn cache dir)"
+          echo "dir-v2=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Node Modules V1
         uses: actions/cache@v4
         with:
           path: |
             packages/v1/node_modules
-            ${{ steps.yarn-cache-dir-path.outputs.dir-v1 }}
-          key: embedded-yarn-${{ hashFiles('packages/v1/yarn.lock') }}
+            ${{ steps.pnpm-cache-dir-path.outputs.dir-v1 }}
+          key: embedded-pnpm-${{ hashFiles('packages/v1/pnpm-lock.yaml') }}
           restore-keys: |
-            embedded-yarn-
+            embedded-pnpm-
 
       - name: Cache Node Modules V2
         uses: actions/cache@v4
         with:
           path: |
             packages/v2/node_modules
-            ${{ steps.yarn-cache-dir-path.outputs.dir-v2 }}
-          key: embedded-yarn-${{ hashFiles('packages/v2/yarn.lock') }}
+            ${{ steps.pnpm-cache-dir-path.outputs.dir-v2 }}
+          key: embedded-pnpm-${{ hashFiles('packages/v2/pnpm-lock.yaml') }}
           restore-keys: |
-            embedded-yarn-
+            embedded-pnpm-
 
       - name: Install Dependencies v1
         run: |
           cd packages/v1
-          yarn install --frozen-lockfile --silent
+          pnpm install --frozen-lockfile --silent
 
       - name: Install Dependencies v2
         run: |
           cd packages/v2
-          yarn install --frozen-lockfile --silent
+          pnpm install --frozen-lockfile --silent
 
       - name: Run Tests v1
         run: |
-          cd packages/v1 && yarn test
+          cd packages/v1 && pnpm test
 
       - name: Run Tests v2
         run: |
-          cd packages/v2 && yarn test
+          cd packages/v2 && pnpm test
