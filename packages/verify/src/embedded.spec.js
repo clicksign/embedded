@@ -1,6 +1,6 @@
 import AuthSession from './embedded';
 
-const containerElementId = 'widget';
+const containerElementId = 'clicksign-embedded-verify';
 const sessionKey = 'foobar123';
 const endpoint = 'https://example.com';
 const originUrl = `${window.location.protocol}://${window.location.host}`;
@@ -43,28 +43,37 @@ describe('AuthSession', () => {
   });
 
   describe('Start', () => {
-    it('should mount widget on the specified element', () => {
-      instance.start(containerElementId);
-
-      const iframeElement = document.getElementById(containerElementId).children[0];
-
-      expect(iframeElement.tagName).toBe('IFRAME');
-      expect(iframeElement).toHaveProperty('src', getSourceUrl());
-    });
-
-    it('should configure iframe attributes and return appended node', () => {
-      const appendedIframe = instance.start(containerElementId);
-
-      expect(appendedIframe).toBe(instance.iframe);
-      expect(appendedIframe).toHaveProperty('style.cssText', 'width: 100%; height: 100%;');
-      expect(appendedIframe.getAttribute('allow')).toBe('camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer');
-    });
-
     it('should throw when target container does not exist', () => {
       expect(() => instance.start('unknown-container')).toThrow();
 
       instance.iframe = null;
       instance.target = null;
+    });
+
+    it('should mount widget on the specified element', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+
+      expect(iframeElement).toBe(instance.iframe);
+      expect(iframeElement.tagName).toBe('IFRAME');
+      expect(iframeElement).toHaveProperty('src', getSourceUrl());
+    });
+
+    it('should set allow iframe attribute with required allowed permissions', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+
+      expect(iframeElement.getAttribute('allow')).toBe('camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer');
+    });
+
+    it('should set style iframe attribute with width and height 100%', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+
+      expect(iframeElement.getAttribute('style')).toBe('width: 100%; height: 100%;');
     });
   });
 
