@@ -6,6 +6,7 @@
   "engines": {
     "node": "^18.18.0"
   },
+  "packageManager": "pnpm@10.29.3",
   "devDependencies": {
     "jasmine": "^5.8.0",
     "jasmine-browser-runner": "^3.0.0",
