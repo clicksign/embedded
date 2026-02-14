@@ -121,20 +121,22 @@ describe('AuthSession', () => {
     });
 
     it('should include custom colors in data query param in the iframe source URL when custom colors is set', () => {
-      const customColors = {
-        buttonTextColor: '#ffffff',
-        buttonBackgroundColor: '#000000',
+      const custom = {
+        colors: {
+          buttonTextColor: '#ffffff',
+          buttonBackgroundColor: '#000000',
+        },
       };
 
-      instance.custom = customColors;
+      instance.custom = custom;
       instance.start(containerElementId);
 
       const iframeElement = document.getElementById(containerElementId).children[0];
       const iframeSrcUrl = new URL(iframeElement.src);
 
       expect(instance.params).toContain('data=');
-      expect(instance.source).toBe(getSourceUrl('', customColors));
-      expect(iframeSrcUrl.searchParams.get('data')).toBe(getDataParam(customColors));
+      expect(instance.source).toBe(getSourceUrl('', custom));
+      expect(iframeSrcUrl.searchParams.get('data')).toBe(getDataParam(custom));
     });
   });
 
