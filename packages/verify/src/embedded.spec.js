@@ -77,8 +77,12 @@ describe('AuthSession', () => {
     });
   });
 
-  describe('Locales', () => {
+  describe('Locale', () => {
     const availableLocales = ['pt-BR', 'en-US', 'es-MX'];
+
+    it('should initialize locale as empty string by default', () => {
+      expect(instance.locale).toBe('');
+    });
 
     it('should mount widget without locale in the source URL', () => {
       instance.start(containerElementId);
