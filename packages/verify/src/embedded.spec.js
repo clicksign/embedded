@@ -5,17 +5,17 @@ const sessionKey = 'foobar123';
 const endpoint = 'https://example.com';
 const originUrl = `${window.location.protocol}://${window.location.host}`;
 
-function getDataParam(brand = null) {
-  if (!brand) return '';
+function getDataParam(custom = null) {
+  if (!custom) return '';
 
-  return AuthSession.base64EncodeUrl(JSON.stringify({ brand }));
+  return AuthSession.base64EncodeUrl(JSON.stringify({ custom }));
 }
 
-function getSourceUrl(locale = '', brand = null) {
+function getSourceUrl(locale = '', custom = null) {
   const prefix = `${endpoint}/verify`;
   const verifyPath = locale ? `${prefix}/${locale}` : prefix;
   const query = new URLSearchParams({ origin: originUrl });
-  const data = getDataParam(brand);
+  const data = getDataParam(custom);
 
   if (data) query.set('data', data);
 
@@ -38,7 +38,7 @@ describe('AuthSession', () => {
     instance.endpoint = endpoint;
     instance.origin = originUrl;
     instance.locale = '';
-    instance.brand = null;
+    instance.custom = null;
     instance.listen = {};
   });
 
@@ -51,7 +51,7 @@ describe('AuthSession', () => {
     expect(instance.origin).toBe(originUrl);
     expect(instance.endpoint).toBe(endpoint);
     expect(instance.locale).toBe('');
-    expect(instance.brand).toBeNull();
+    expect(instance.custom).toBeNull();
     expect(instance.source).toBe(getSourceUrl());
   });
 
@@ -115,27 +115,26 @@ describe('AuthSession', () => {
     });
   });
 
-  describe('Custom Brand', () => {
-    it('should initialize brand as null by default', () => {
-      expect(instance.brand).toBeNull();
+  describe('Customization', () => {
+    it('should initialize custom as null by default', () => {
+      expect(instance.custom).toBeNull();
     });
 
-    it('should include brand in data query param in the iframe source URL when brand is set', () => {
-      const customBrand = {
-        color1: '#123123',
-        color2: '#000000',
-        color3: '#fcfcfc',
+    it('should include custom colors in data query param in the iframe source URL when custom colors is set', () => {
+      const customColors = {
+        buttonTextColor: '#ffffff',
+        buttonBackgroundColor: '#000000',
       };
 
-      instance.brand = customBrand;
+      instance.custom = customColors;
       instance.start(containerElementId);
 
       const iframeElement = document.getElementById(containerElementId).children[0];
       const iframeSrcUrl = new URL(iframeElement.src);
 
       expect(instance.params).toContain('data=');
-      expect(instance.source).toBe(getSourceUrl('', customBrand));
-      expect(iframeSrcUrl.searchParams.get('data')).toBe(getDataParam(customBrand));
+      expect(instance.source).toBe(getSourceUrl('', customColors));
+      expect(iframeSrcUrl.searchParams.get('data')).toBe(getDataParam(customColors));
     });
   });
 

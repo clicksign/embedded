@@ -7,7 +7,7 @@ export default class AuthSession {
     this.key = key;
     this.listen = {};
     this.locale = '';
-    this.brand = null;
+    this.custom = null;
     this.endpoint = 'https://app.clicksign.com';
     this.origin = `${window.location.protocol}://${window.location.host}`;
   }
@@ -59,9 +59,9 @@ export default class AuthSession {
 
   // TODO: Definir nome do método combinando com o nome do query param (linha 81)
   get data() {
-    if (!this.brand) return '';
+    if (!this.custom) return '';
 
-    return AuthSession.base64EncodeUrl(JSON.stringify({ brand: this.brand }));
+    return AuthSession.base64EncodeUrl(JSON.stringify({ custom: this.custom }));
   }
 
   static base64EncodeUrl(value) {
