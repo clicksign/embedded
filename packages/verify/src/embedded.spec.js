@@ -5,11 +5,21 @@ const sessionKey = 'foobar123';
 const endpoint = 'https://example.com';
 const originUrl = `${window.location.protocol}://${window.location.host}`;
 
-function getSourceUrl(locale = '') {
+function getDataParam(brand = null) {
+  if (!brand) return '';
+
+  return AuthSession.base64EncodeUrl(JSON.stringify({ brand }));
+}
+
+function getSourceUrl(locale = '', brand = null) {
   const prefix = `${endpoint}/verify`;
   const verifyPath = locale ? `${prefix}/${locale}` : prefix;
+  const query = new URLSearchParams({ origin: originUrl });
+  const data = getDataParam(brand);
 
-  return `${verifyPath}/sessions/${sessionKey}?origin=${originUrl}`;
+  if (data) query.set('data', data);
+
+  return `${verifyPath}/sessions/${sessionKey}?${query.toString()}`;
 }
 
 function createContainerElement() {
@@ -27,6 +37,8 @@ describe('AuthSession', () => {
 
     instance.endpoint = endpoint;
     instance.origin = originUrl;
+    instance.locale = '';
+    instance.brand = null;
     instance.listen = {};
   });
 
@@ -39,6 +51,7 @@ describe('AuthSession', () => {
     expect(instance.origin).toBe(originUrl);
     expect(instance.endpoint).toBe(endpoint);
     expect(instance.locale).toBe('');
+    expect(instance.brand).toBeNull();
     expect(instance.source).toBe(getSourceUrl());
   });
 
@@ -95,6 +108,52 @@ describe('AuthSession', () => {
       const iframeElement = document.getElementById(containerElementId).children[0];
 
       expect(iframeElement).toHaveProperty('src', getSourceUrl(locale));
+    });
+  });
+
+  describe('Custom Brand', () => {
+    it('should initialize brand as null by default', () => {
+      expect(instance.brand).toBeNull();
+    });
+
+    it('should include brand in data query param in the iframe source URL when brand is set', () => {
+      const customBrand = {
+        color1: '#123123',
+        color2: '#000000',
+        color3: '#fcfcfc',
+      };
+
+      instance.brand = customBrand;
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrcUrl = new URL(iframeElement.src);
+
+      expect(instance.params).toContain('data=');
+      expect(instance.source).toBe(getSourceUrl('', customBrand));
+      expect(iframeSrcUrl.searchParams.get('data')).toBe(getDataParam(customBrand));
+    });
+  });
+
+  describe('Query Params', () => {
+    it('should include origin query param in the iframe source URL', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrcUrl = new URL(iframeElement.src);
+
+      expect(instance.params).toBe(`?${new URLSearchParams({ origin: originUrl }).toString()}`);
+      expect(iframeSrcUrl.searchParams.get('origin')).toBe(originUrl);
+    });
+
+    it('should not include data query param when there is no payload', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrcUrl = new URL(iframeElement.src);
+
+      expect(instance.params).not.toContain('data=');
+      expect(iframeSrcUrl.searchParams.get('data')).toBeNull();
     });
   });
 
