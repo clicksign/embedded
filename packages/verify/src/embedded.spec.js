@@ -6,10 +6,10 @@ const endpoint = 'https://example.com';
 const originUrl = `${window.location.protocol}://${window.location.host}`;
 
 function getSourceUrl(locale = '') {
-  const prefix = `${endpoint}/verify`;
+  const prefix = `${endpoint}/app/verify`;
   const verifyPath = locale ? `${prefix}/${locale}` : prefix;
 
-  return `${verifyPath}/sessions/${sessionKey}?origin=${originUrl}`;
+  return `${verifyPath}/transactions/${sessionKey}?origin=${originUrl}`;
 }
 
 function createContainerElement() {
