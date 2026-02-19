@@ -43,45 +43,56 @@ jobs:
       - name: Get pnpm Store Dir Path
         id: pnpm-cache-dir-path
         run: |
-          cd packages/v1
-          echo "dir-v1=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-          cd ../../packages/v2
-          echo "dir-v2=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          cd packages/widget/legacy
+          echo "dir-widget-legacy=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          cd ../
+          echo "dir-widget=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          cd ../../packages/verify
+          echo "dir-verify=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
-      - name: Cache Node Modules V1
+      - name: Cache Node Modules Widget Legacy (v1)
         uses: actions/cache@v4
         with:
           path: |
-            packages/v1/node_modules
-            ${{ steps.pnpm-cache-dir-path.outputs.dir-v1 }}
-          key: embedded-pnpm-${{ hashFiles('packages/v1/pnpm-lock.yaml') }}
+            packages/widget/legacy/node_modules
+            ${{ steps.pnpm-cache-dir-path.outputs.dir-widget-legacy }}
+          key: embedded-pnpm-${{ hashFiles('packages/widget/legacy/pnpm-lock.yaml') }}
           restore-keys: |
             embedded-pnpm-
 
-      - name: Cache Node Modules V2
+      - name: Cache Node Modules Widget (v2)
         uses: actions/cache@v4
         with:
           path: |
-            packages/v2/node_modules
-            ${{ steps.pnpm-cache-dir-path.outputs.dir-v2 }}
-          key: embedded-pnpm-${{ hashFiles('packages/v2/pnpm-lock.yaml') }}
+            packages/widget/node_modules
+            ${{ steps.pnpm-cache-dir-path.outputs.dir-widget }}
+          key: embedded-pnpm-${{ hashFiles('packages/widget/pnpm-lock.yaml') }}
           restore-keys: |
             embedded-pnpm-
 
-      - name: Install Dependencies v1
+      - name: Install Dependencies Widget Legacy (v1)
         run: |
-          cd packages/v1
+          cd packages/widget/legacy
           pnpm install --frozen-lockfile --silent
 
-      - name: Install Dependencies v2
+      - name: Install Dependencies Widget (v2)
         run: |
-          cd packages/v2
+          cd packages/widget
           pnpm install --frozen-lockfile --silent
 
-      - name: Run Tests v1
+      - name: Install Dependencies Verify
         run: |
-          cd packages/v1 && pnpm test
+          cd packages/verify
+          pnpm install --frozen-lockfile --silent
 
-      - name: Run Tests v2
+      - name: Run Tests Widget Legacy (v1)
         run: |
-          cd packages/v2 && pnpm test
+          cd packages/widget/legacy && pnpm test
+
+      - name: Run Tests Widget (v2)
+        run: |
+          cd packages/widget && pnpm test
+
+      - name: Run Tests Verify
+        run: |
+          cd packages/verify && pnpm test
