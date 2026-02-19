@@ -61,8 +61,8 @@ export default class AuthSession {
   }
 
   get path() {
-    if (this.locale) return `/verify/${this.locale}/sessions/${this.key}`;
+    if (this.locale) return `/app/verify/${this.locale}/transactions/${this.key}`;
 
-    return `/verify/sessions/${this.key}`;
+    return `/app/verify/transactions/${this.key}`;
   }
 }
