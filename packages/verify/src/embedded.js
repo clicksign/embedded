@@ -1,4 +1,4 @@
-export default class AuthSession {
+export default class ClicksignVerify {
   #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
 
   #defaultStyles = 'width: 100%; height: 100%;';

@@ -1,4 +1,4 @@
-import AuthSession from './embedded';
+import ClicksignVerify from './embedded';
 
 const containerElementId = 'clicksign-embedded-verify';
 const sessionKey = 'foobar123';
@@ -19,8 +19,8 @@ function createContainerElement() {
   document.body.appendChild(element);
 }
 
-describe('AuthSession', () => {
-  const instance = new AuthSession(sessionKey);
+describe('ClicksignVerify', () => {
+  const instance = new ClicksignVerify(sessionKey);
 
   beforeEach(() => {
     createContainerElement();
