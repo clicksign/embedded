@@ -1,7 +1,6 @@
 ---
 name: Tests
 
-
 on: [pull_request]
 
 jobs:
@@ -9,6 +8,18 @@ jobs:
     name: "Tests"
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
+    strategy:
+      matrix:
+        package:
+          - name: widget-legacy
+            path: packages/widget/legacy
+            lockfile: packages/widget/legacy/pnpm-lock.yaml
+          - name: widget
+            path: packages/widget
+            lockfile: packages/widget/pnpm-lock.yaml
+          - name: verify
+            path: packages/verify
+            lockfile: packages/verify/pnpm-lock.yaml
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -43,56 +54,24 @@ jobs:
       - name: Get pnpm Store Dir Path
         id: pnpm-cache-dir-path
         run: |
-          cd packages/widget/legacy
-          echo "dir-widget-legacy=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-          cd ../
-          echo "dir-widget=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-          cd ../../packages/verify
-          echo "dir-verify=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          cd ${{ matrix.package.path }}
+          echo "dir=${{ matrix.package.name }}=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
-      - name: Cache Node Modules Widget Legacy (v1)
+      - name: Cache Node Modules
         uses: actions/cache@v4
         with:
           path: |
-            packages/widget/legacy/node_modules
-            ${{ steps.pnpm-cache-dir-path.outputs.dir-widget-legacy }}
-          key: embedded-pnpm-${{ hashFiles('packages/widget/legacy/pnpm-lock.yaml') }}
+            ${{ matrix.package.path }}/node_modules
+            ${{ steps.pnpm-cache-dir-path.outputs['dir-' + matrix.package.name] }}
+          key: embedded-pnpm-${{ hashFiles(matrix.package.lockfile) }}
           restore-keys: |
             embedded-pnpm-
 
-      - name: Cache Node Modules Widget (v2)
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/widget/node_modules
-            ${{ steps.pnpm-cache-dir-path.outputs.dir-widget }}
-          key: embedded-pnpm-${{ hashFiles('packages/widget/pnpm-lock.yaml') }}
-          restore-keys: |
-            embedded-pnpm-
-
-      - name: Install Dependencies Widget Legacy (v1)
+      - name: Install Dependencies
         run: |
-          cd packages/widget/legacy
+          cd ${{ matrix.package.path }}
           pnpm install --frozen-lockfile --silent
 
-      - name: Install Dependencies Widget (v2)
+      - name: Run Tests
         run: |
-          cd packages/widget
-          pnpm install --frozen-lockfile --silent
-
-      - name: Install Dependencies Verify
-        run: |
-          cd packages/verify
-          pnpm install --frozen-lockfile --silent
-
-      - name: Run Tests Widget Legacy (v1)
-        run: |
-          cd packages/widget/legacy && pnpm test
-
-      - name: Run Tests Widget (v2)
-        run: |
-          cd packages/widget && pnpm test
-
-      - name: Run Tests Verify
-        run: |
-          cd packages/verify && pnpm test
+          cd ${{ matrix.package.path }} && pnpm test
