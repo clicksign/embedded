@@ -41,7 +41,7 @@ jobs:
         id: pnpm-cache-dir-path
         run: |
           cd ${{ matrix.package.path }}
-          echo "dir=${{ matrix.package.name }}=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          echo "dir-${{ matrix.package.name }}=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Node Modules
         uses: actions/cache@v4
