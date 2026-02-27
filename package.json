@@ -10,8 +10,8 @@
     "esbuild": "^0.25.5"
   },
   "scripts": {
-    "build:widget:legacy": "esbuild packages/widget/legacy/src/embedded.js --minify --outdir=build",
-    "build:widget": "esbuild packages/widget/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/widget/embedded.js",
+    "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
+    "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v2/embedded.js",
     "build:verify": "esbuild packages/verify/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/verify/embedded.js"
   },
   "repository": {
