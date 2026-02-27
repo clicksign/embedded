@@ -1,7 +1,6 @@
 ---
 name: Tests
 
-
 on: [pull_request]
 
 jobs:
@@ -9,6 +8,18 @@ jobs:
     name: "Tests"
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
+    strategy:
+      matrix:
+        package:
+          - name: v1
+            path: packages/v1
+            lockfile: packages/v1/pnpm-lock.yaml
+          - name: v2
+            path: packages/v2
+            lockfile: packages/v2/pnpm-lock.yaml
+          - name: verify
+            path: packages/verify
+            lockfile: packages/verify/pnpm-lock.yaml
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -37,44 +48,30 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Get pnpm store path
-        id: pnpm-store-path
-        run: echo "dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Activate pnpm
+        run: corepack prepare pnpm@latest --activate
 
-      - name: Cache Node Modules V1
+      - name: Get pnpm Store Dir Path
+        id: pnpm-cache-dir-path
+        run: |
+          cd ${{ matrix.package.path }}
+          echo "dir-${{ matrix.package.name }}=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Node Modules
         uses: actions/cache@v4
         with:
           path: |
-            packages/v1/node_modules
-            ${{ steps.pnpm-store-path.outputs.dir }}
-          key: embedded-pnpm-${{ hashFiles('packages/v1/pnpm-lock.yaml') }}
+            ${{ matrix.package.path }}/node_modules
+            ${{ steps.pnpm-cache-dir-path.outputs['dir-' + matrix.package.name] }}
+          key: embedded-pnpm-${{ hashFiles(matrix.package.lockfile) }}
           restore-keys: |
             embedded-pnpm-
 
-      - name: Cache Node Modules V2
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/v2/node_modules
-            ${{ steps.pnpm-store-path.outputs.dir }}
-          key: embedded-pnpm-${{ hashFiles('packages/v2/pnpm-lock.yaml') }}
-          restore-keys: |
-            embedded-pnpm-
-
-      - name: Install Dependencies v1
+      - name: Install Dependencies
         run: |
-          cd packages/v1
-          pnpm install --frozen-lockfile
+          cd ${{ matrix.package.path }}
+          pnpm install --frozen-lockfile --silent
 
-      - name: Install Dependencies v2
+      - name: Run Tests
         run: |
-          cd packages/v2
-          pnpm install --frozen-lockfile
-
-      - name: Run Tests v1
-        run: |
-          cd packages/v1 && pnpm test
-
-      - name: Run Tests v2
-        run: |
-          cd packages/v2 && pnpm test
+          cd ${{ matrix.package.path }} && pnpm test
