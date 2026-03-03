@@ -19,12 +19,12 @@ jobs:
             lockfile: packages/v2/pnpm-lock.yaml
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup node 18.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 18
 
@@ -38,7 +38,7 @@ jobs:
               lsb-release wget xdg-utils
 
       - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v1
+        uses: browser-actions/setup-chrome@v2
         with:
           chrome-version: 120
 
@@ -55,7 +55,7 @@ jobs:
           echo "dir=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Node Modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ${{ matrix.package.path }}/node_modules
