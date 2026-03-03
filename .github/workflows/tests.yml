@@ -1,14 +1,22 @@
 ---
 name: Tests
 
-
 on: [pull_request]
 
 jobs:
   tests:
-    name: "Tests"
+    name: "Run Tests Package ${{ matrix.package.name }}"
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
+    strategy:
+      matrix:
+        package:
+          - name: v1
+            path: packages/v1
+            lockfile: packages/v1/pnpm-lock.yaml
+          - name: v2
+            path: packages/v2
+            lockfile: packages/v2/pnpm-lock.yaml
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -37,48 +45,30 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Get Yarn Cache Dir Path
-        id: yarn-cache-dir-path
-        run: |
-          cd packages/v1
-          echo "::set-output name=dir-v1::$(yarn cache dir)"
-          cd ../../packages/v2
-          echo "::set-output name=dir-v2::$(yarn cache dir)"
+      - name: Activate pnpm
+        run: corepack prepare pnpm@latest --activate
 
-      - name: Cache Node Modules V1
+      - name: Get pnpm Store Dir Path
+        id: pnpm-cache-dir-path
+        run: |
+          cd ${{ matrix.package.path }}
+          echo "dir=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Node Modules
         uses: actions/cache@v4
         with:
           path: |
-            packages/v1/node_modules
-            ${{ steps.yarn-cache-dir-path.outputs.dir-v1 }}
-          key: embedded-yarn-${{ hashFiles('packages/v1/yarn.lock') }}
+            ${{ matrix.package.path }}/node_modules
+            ${{ steps.pnpm-cache-dir-path.outputs.dir }}
+          key: embedded-pnpm-${{ hashFiles(matrix.package.lockfile) }}
           restore-keys: |
-            embedded-yarn-
+            embedded-pnpm-
 
-      - name: Cache Node Modules V2
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/v2/node_modules
-            ${{ steps.yarn-cache-dir-path.outputs.dir-v2 }}
-          key: embedded-yarn-${{ hashFiles('packages/v2/yarn.lock') }}
-          restore-keys: |
-            embedded-yarn-
-
-      - name: Install Dependencies v1
+      - name: Install Dependencies
         run: |
-          cd packages/v1
-          yarn install --frozen-lockfile --silent
+          cd ${{ matrix.package.path }}
+          pnpm install --frozen-lockfile --silent
 
-      - name: Install Dependencies v2
+      - name: Run Tests
         run: |
-          cd packages/v2
-          yarn install --frozen-lockfile --silent
-
-      - name: Run Tests v1
-        run: |
-          cd packages/v1 && yarn test
-
-      - name: Run Tests v2
-        run: |
-          cd packages/v2 && yarn test
+          cd ${{ matrix.package.path }} && pnpm test
