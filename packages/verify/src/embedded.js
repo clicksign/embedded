@@ -1,4 +1,4 @@
-export default class AuthSession {
+export default class ClicksignVerify {
   #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
 
   #defaultStyles = 'width: 100%; height: 100%;';
@@ -86,8 +86,8 @@ export default class AuthSession {
   }
 
   get path() {
-    if (this.locale) return `/verify/${this.locale}/sessions/${this.key}`;
+    if (this.locale) return `/app/verify/${this.locale}/transactions/${this.key}`;
 
-    return `/verify/sessions/${this.key}`;
+    return `/app/verify/transactions/${this.key}`;
   }
 }
