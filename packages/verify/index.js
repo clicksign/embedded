@@ -1,5 +1,5 @@
-import AuthSession from "./src/embedded";
+import ClicksignVerify from './src/embedded';
 
-globalThis.AuthSession = AuthSession;
+globalThis.ClicksignVerify = ClicksignVerify;
 
-export { AuthSession }
+export default ClicksignVerify;

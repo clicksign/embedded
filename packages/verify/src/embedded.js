@@ -57,11 +57,10 @@ export default class ClicksignVerify {
     return `${this.endpoint}${this.path}${this.params}`;
   }
 
-  // TODO: Definir nome do método combinando com o nome do query param (linha 81)
   get data() {
     if (!this.custom) return '';
 
-    return AuthSession.base64EncodeUrl(JSON.stringify({ custom: this.custom }));
+    return ClicksignVerify.base64EncodeUrl(JSON.stringify({ custom: this.custom }));
   }
 
   static base64EncodeUrl(value) {
@@ -77,7 +76,6 @@ export default class ClicksignVerify {
   get params() {
     const query = new URLSearchParams({ origin: this.origin });
 
-    // TODO: Definir nome do query param. Ex.: settings, payload, data, etc.
     if (this.data) query.set('data', this.data);
 
     const queryToString = query.toString();
