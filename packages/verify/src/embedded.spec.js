@@ -5,11 +5,21 @@ const sessionKey = 'foobar123';
 const endpoint = 'https://example.com';
 const originUrl = `${window.location.protocol}://${window.location.host}`;
 
-function getSourceUrl(locale = '') {
+function getDataParam(custom = null) {
+  if (!custom) return '';
+
+  return ClicksignVerify.base64EncodeUrl(JSON.stringify({ custom }));
+}
+
+function getSourceUrl(locale = '', custom = null) {
   const prefix = `${endpoint}/app/verify`;
   const verifyPath = locale ? `${prefix}/${locale}` : prefix;
+  const query = new URLSearchParams({ origin: originUrl });
+  const data = getDataParam(custom);
 
-  return `${verifyPath}/transactions/${sessionKey}?origin=${originUrl}`;
+  if (data) query.set('data', data);
+
+  return `${verifyPath}/transactions/${sessionKey}?${query.toString()}`;
 }
 
 function createContainerElement() {
@@ -27,6 +37,8 @@ describe('ClicksignVerify', () => {
 
     instance.endpoint = endpoint;
     instance.origin = originUrl;
+    instance.locale = '';
+    instance.custom = null;
     instance.listen = {};
   });
 
@@ -39,6 +51,7 @@ describe('ClicksignVerify', () => {
     expect(instance.origin).toBe(originUrl);
     expect(instance.endpoint).toBe(endpoint);
     expect(instance.locale).toBe('');
+    expect(instance.custom).toBeNull();
     expect(instance.source).toBe(getSourceUrl());
   });
 
@@ -99,6 +112,53 @@ describe('ClicksignVerify', () => {
       const iframeElement = document.getElementById(containerElementId).children[0];
 
       expect(iframeElement).toHaveProperty('src', getSourceUrl(locale));
+    });
+  });
+
+  describe('Customization', () => {
+    it('should initialize custom as null by default', () => {
+      expect(instance.custom).toBeNull();
+    });
+
+    it('should include custom colors in data query param in the iframe source URL when custom colors is set', () => {
+      const custom = {
+        colors: {
+          buttonTextColor: '#ffffff',
+          buttonBackgroundColor: '#000000',
+        },
+      };
+
+      instance.custom = custom;
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrcUrl = new URL(iframeElement.src);
+
+      expect(instance.params).toContain('data=');
+      expect(instance.source).toBe(getSourceUrl('', custom));
+      expect(iframeSrcUrl.searchParams.get('data')).toBe(getDataParam(custom));
+    });
+  });
+
+  describe('Query Params', () => {
+    it('should include origin query param in the iframe source URL', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrcUrl = new URL(iframeElement.src);
+
+      expect(instance.params).toBe(`?${new URLSearchParams({ origin: originUrl }).toString()}`);
+      expect(iframeSrcUrl.searchParams.get('origin')).toBe(originUrl);
+    });
+
+    it('should not include data query param when there is no payload', () => {
+      instance.start(containerElementId);
+
+      const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrcUrl = new URL(iframeElement.src);
+
+      expect(instance.params).not.toContain('data=');
+      expect(iframeSrcUrl.searchParams.get('data')).toBeNull();
     });
   });
 

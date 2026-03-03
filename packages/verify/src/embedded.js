@@ -7,6 +7,7 @@ export default class ClicksignVerify {
     this.key = key;
     this.listen = {};
     this.locale = '';
+    this.custom = null;
     this.endpoint = 'https://app.clicksign.com';
     this.origin = `${window.location.protocol}://${window.location.host}`;
   }
@@ -56,8 +57,30 @@ export default class ClicksignVerify {
     return `${this.endpoint}${this.path}${this.params}`;
   }
 
+  get data() {
+    if (!this.custom) return '';
+
+    return ClicksignVerify.base64EncodeUrl(JSON.stringify({ custom: this.custom }));
+  }
+
+  static base64EncodeUrl(value) {
+    let base64;
+
+    if (typeof btoa === 'function') base64 = btoa(value);
+    else if (typeof Buffer !== 'undefined') base64 = Buffer.from(value, 'utf-8').toString('base64');
+    else throw new Error('No base64 encoder available');
+
+    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+  }
+
   get params() {
-    return `?origin=${this.origin}`;
+    const query = new URLSearchParams({ origin: this.origin });
+
+    if (this.data) query.set('data', this.data);
+
+    const queryToString = query.toString();
+
+    return queryToString ? `?${queryToString}` : '';
   }
 
   get path() {
