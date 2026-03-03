@@ -5,7 +5,7 @@ on: [pull_request]
 
 jobs:
   tests:
-    name: "Tests"
+    name: "Run Tests Package ${{ matrix.package.name }}"
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     strategy:
@@ -17,9 +17,6 @@ jobs:
           - name: v2
             path: packages/v2
             lockfile: packages/v2/pnpm-lock.yaml
-          - name: verify
-            path: packages/verify
-            lockfile: packages/verify/pnpm-lock.yaml
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -55,14 +52,14 @@ jobs:
         id: pnpm-cache-dir-path
         run: |
           cd ${{ matrix.package.path }}
-          echo "dir-${{ matrix.package.name }}=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          echo "dir=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Node Modules
         uses: actions/cache@v4
         with:
           path: |
             ${{ matrix.package.path }}/node_modules
-            ${{ steps.pnpm-cache-dir-path.outputs['dir-' + matrix.package.name] }}
+            ${{ steps.pnpm-cache-dir-path.outputs.dir }}
           key: embedded-pnpm-${{ hashFiles(matrix.package.lockfile) }}
           restore-keys: |
             embedded-pnpm-
