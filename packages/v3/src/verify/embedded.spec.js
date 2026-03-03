@@ -1,4 +1,4 @@
-import ClicksignVerify from './embedded';
+import Verify from './embedded';
 
 const containerElementId = 'clicksign-embedded-verify';
 const sessionKey = 'foobar123';
@@ -8,7 +8,7 @@ const originUrl = `${window.location.protocol}://${window.location.host}`;
 function getDataParam(custom = null) {
   if (!custom) return '';
 
-  return ClicksignVerify.base64EncodeUrl(JSON.stringify({ custom }));
+  return Verify.base64EncodeUrl(JSON.stringify({ custom }));
 }
 
 function getSourceUrl(locale = '', custom = null) {
@@ -29,8 +29,8 @@ function createContainerElement() {
   document.body.appendChild(element);
 }
 
-describe('ClicksignVerify', () => {
-  const instance = new ClicksignVerify(sessionKey);
+describe('Verify', () => {
+  const instance = new Verify(sessionKey);
 
   beforeEach(() => {
     createContainerElement();

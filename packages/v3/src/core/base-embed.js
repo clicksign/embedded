@@ -1,4 +1,4 @@
-export default class ClicksignVerify {
+export default class BaseEmbed {
   #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
 
   #defaultStyles = 'width: 100%; height: 100%;';
@@ -6,10 +6,11 @@ export default class ClicksignVerify {
   constructor(key) {
     this.key = key;
     this.listen = {};
-    this.locale = '';
-    this.custom = null;
     this.endpoint = 'https://app.clicksign.com';
     this.origin = `${window.location.protocol}://${window.location.host}`;
+    this.target = null;
+    this.iframe = null;
+    this.boundEventHandler = (event) => this.eventHandler(event);
   }
 
   eventsFor(event) {
@@ -21,7 +22,7 @@ export default class ClicksignVerify {
     this.eventsFor(event).forEach((fn) => fn(event.data));
   }
 
-  start(id) {
+  mount(id) {
     this.target = document.getElementById(id);
 
     this.iframe = document.createElement('iframe');
@@ -29,7 +30,7 @@ export default class ClicksignVerify {
     this.iframe.setAttribute('style', this.#defaultStyles);
     this.iframe.setAttribute('allow', this.#allowed);
 
-    window.addEventListener('message', (event) => this.eventHandler(event));
+    window.addEventListener('message', this.boundEventHandler);
 
     return this.target.appendChild(this.iframe);
   }
@@ -47,7 +48,7 @@ export default class ClicksignVerify {
       this.target = null;
       this.iframe = null;
 
-      window.removeEventListener('message', this.eventHandler);
+      window.removeEventListener('message', this.boundEventHandler);
     }
 
     return true;
@@ -55,37 +56,5 @@ export default class ClicksignVerify {
 
   get source() {
     return `${this.endpoint}${this.path}${this.params}`;
-  }
-
-  get data() {
-    if (!this.custom) return '';
-
-    return ClicksignVerify.base64EncodeUrl(JSON.stringify({ custom: this.custom }));
-  }
-
-  static base64EncodeUrl(value) {
-    let base64;
-
-    if (typeof btoa === 'function') base64 = btoa(value);
-    else if (typeof Buffer !== 'undefined') base64 = Buffer.from(value, 'utf-8').toString('base64');
-    else throw new Error('No base64 encoder available');
-
-    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
-  }
-
-  get params() {
-    const query = new URLSearchParams({ origin: this.origin });
-
-    if (this.data) query.set('data', this.data);
-
-    const queryToString = query.toString();
-
-    return queryToString ? `?${queryToString}` : '';
-  }
-
-  get path() {
-    if (this.locale) return `/app/verify/${this.locale}/transactions/${this.key}`;
-
-    return `/app/verify/transactions/${this.key}`;
   }
 }

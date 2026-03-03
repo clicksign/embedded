@@ -12,7 +12,9 @@
   "scripts": {
     "build:v1": "esbuild packages/v1/src/embedded.js --minify --outdir=build",
     "build:v2": "esbuild packages/v2/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v2/embedded.js",
-    "build:verify": "esbuild packages/verify/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/verify/embedded.js"
+    "build:v3:sign": "esbuild packages/v3/index.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v3/embedded.js",
+    "build:v3:verify": "esbuild packages/v3/verify.js --bundle --sourcemap --minify --keep-names --target=safari15 --outfile=build/v3/verify.js",
+    "build:v3": "pnpm run build:v3:sign && pnpm run build:v3:verify"
   },
   "repository": {
     "type": "git",
