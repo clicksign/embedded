@@ -1,13 +1,14 @@
-export default class AuthSession {
+export default class ClicksignVerify {
   #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
 
   #defaultStyles = 'width: 100%; height: 100%;';
 
   constructor(key) {
     this.key = key;
-    this.origin = `${window.location.protocol}://${window.location.host}`;
     this.listen = {};
-    this.endpoint = 'https://app-workspaces-1.clicksign.dev/identity_authenticator';
+    this.locale = '';
+    this.endpoint = 'https://app.clicksign.com';
+    this.origin = `${window.location.protocol}://${window.location.host}`;
   }
 
   eventsFor(event) {
@@ -50,7 +51,7 @@ export default class AuthSession {
 
     return true;
   }
-  
+
   get source() {
     return `${this.endpoint}${this.path}${this.params}`;
   }
@@ -60,6 +61,8 @@ export default class AuthSession {
   }
 
   get path() {
-    return `/sessions/${this.key}`;
+    if (this.locale) return `/app/verify/${this.locale}/transactions/${this.key}`;
+
+    return `/app/verify/transactions/${this.key}`;
   }
 }
