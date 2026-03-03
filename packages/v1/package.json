@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Para criar o componente de assinatura:",
   "main": "gulpfile.js",
+  "packageManager": "pnpm@10.29.3",
   "engines": {
     "node": "^18.18.0"
   },
-  "packageManager": "pnpm@10.29.3",
   "devDependencies": {
     "jasmine": "^5.8.0",
     "jasmine-browser-runner": "^3.0.0",

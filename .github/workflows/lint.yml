@@ -17,9 +17,6 @@ jobs:
           - name: v2
             path: packages/v2
             lockfile: packages/v2/pnpm-lock.yaml
-          - name: verify
-            path: packages/verify
-            lockfile: packages/verify/pnpm-lock.yaml
           - name: v3
             path: packages/v3
             lockfile: packages/v3/pnpm-lock.yaml
