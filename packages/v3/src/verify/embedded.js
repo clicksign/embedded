@@ -11,6 +11,10 @@ export default class Verify extends BaseEmbed {
     return this.mount(id);
   }
 
+  isLocalhost() {
+    return this.origin.includes('localhost');
+  }
+
   get data() {
     if (!this.custom) return '';
 
@@ -38,8 +42,9 @@ export default class Verify extends BaseEmbed {
   }
 
   get path() {
-    if (this.locale) return `/app/verify/${this.locale}/transactions/${this.key}`;
+    const basePath = this.isLocalhost() ? '' : '/app/verify';
+    if (this.locale) return `${basePath}/${this.locale}/transactions/${this.key}`;
 
-    return `/app/verify/transactions/${this.key}`;
+    return `${basePath}/transactions/${this.key}`;
   }
 }
