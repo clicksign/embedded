@@ -12,7 +12,7 @@ export default class Verify extends BaseEmbed {
   }
 
   isLocalhost() {
-    return this.origin.includes('localhost');
+    return this.endpoint.includes('localhost');
   }
 
   get data() {
