@@ -7,7 +7,7 @@ export default class BaseEmbed {
     this.key = key;
     this.listen = {};
     this.endpoint = 'https://app.clicksign.com';
-    this.origin = `${window.location.protocol}://${window.location.host}`;
+    this.origin = `${window.location.protocol}//${window.location.host}`;
     this.target = null;
     this.iframe = null;
     this.boundEventHandler = (event) => this.eventHandler(event);

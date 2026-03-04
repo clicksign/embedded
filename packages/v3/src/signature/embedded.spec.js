@@ -2,7 +2,7 @@ import Clicksign from './embedded';
 
 const containerElementId = 'widget';
 const signatureKey = 'foobar123';
-const originUrl = `${window.location.protocol}://${window.location.host}`;
+const originUrl = `${window.location.protocol}//${window.location.host}`;
 const applicationUrl = 'https://app.clicksign.com';
 const signatureUrl = `${applicationUrl}/notarial/widget/signatures/${signatureKey}/redirect?embedded=true&origin=${originUrl}`;
 
