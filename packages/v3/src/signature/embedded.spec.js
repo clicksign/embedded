@@ -41,6 +41,12 @@ describe('Clicksign Embedded', () => {
     expect(iframeElement).toHaveProperty('src', signatureUrl);
   });
 
+  it('should keep default iframe allow permissions', () => {
+    const iframeElement = document.getElementById(containerElementId).children[0];
+
+    expect(iframeElement.getAttribute('allow')).toBe('camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer');
+  });
+
   it('should unmount widget on the specified element', () => {
     const containerElement = document.getElementById(containerElementId);
 

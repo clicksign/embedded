@@ -1,5 +1,5 @@
 export default class BaseEmbed {
-  #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
+  #defaultAllowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer';
 
   #defaultStyles = 'width: 100%; height: 100%;';
 
@@ -28,7 +28,7 @@ export default class BaseEmbed {
     this.iframe = document.createElement('iframe');
     this.iframe.setAttribute('src', this.source);
     this.iframe.setAttribute('style', this.#defaultStyles);
-    this.iframe.setAttribute('allow', this.#allowed);
+    this.iframe.setAttribute('allow', this.allowed);
 
     window.addEventListener('message', this.boundEventHandler);
 
@@ -56,5 +56,9 @@ export default class BaseEmbed {
 
   get source() {
     return `${this.endpoint}${this.path}${this.params}`;
+  }
+
+  get allowed() {
+    return this.#defaultAllowed;
   }
 }
