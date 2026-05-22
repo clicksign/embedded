@@ -147,10 +147,10 @@ transaction.unmount();
 
 ### Click Forms (`v3-beta`)
 
-Para criar o componente de click-form:
+Para criar o componente de form:
 
 ```javascript
-import Form from '@clicksign/embedded/v3/click-form';
+import Form from '@clicksign/embedded/v3/form';
 
 const form = new Form('CHAVE_DO_FORMULARIO');
 
