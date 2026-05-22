@@ -28,17 +28,17 @@ describe('ClickForm', () => {
   });
 
   it('should initialize properly', () => {
-    const originUrl = `${window.location.protocol}://${window.location.host}`;
+    const originUrl = window.location.origin;
 
     expect(instance.key).toBe(formKey);
-    expect(instance.origin).toBe(originUrl);
+    expect(new URL(instance.origin).origin).toBe(originUrl);
     expect(instance.endpoint).toBe(endpoint);
 
     const source = new URL(instance.source);
     expect(source.origin).toBe(endpoint);
-    expect(source.pathname).toBe(`/app/click-form/forms/${formKey}`);
+    expect(source.pathname).toBe(`/app/click_form/${formKey}`);
     expect(source.searchParams.get('embedded')).toBe('true');
-    expect(source.searchParams.get('origin')).toBe(originUrl);
+    expect(new URL(source.searchParams.get('origin')).origin).toBe(originUrl);
   });
 
   describe('Mount', () => {
@@ -50,7 +50,7 @@ describe('ClickForm', () => {
     });
 
     it('should mount widget on the specified element', () => {
-      const originUrl = `${window.location.protocol}://${window.location.host}`;
+      const originUrl = window.location.origin;
 
       instance.mount(containerElementId);
 
@@ -60,9 +60,9 @@ describe('ClickForm', () => {
       expect(iframeElement).toBe(instance.iframe);
       expect(iframeElement.tagName).toBe('IFRAME');
       expect(iframeSrc.origin).toBe(endpoint);
-      expect(iframeSrc.pathname).toBe(`/app/click-form/forms/${formKey}`);
+      expect(iframeSrc.pathname).toBe(`/app/click_form/${formKey}`);
       expect(iframeSrc.searchParams.get('embedded')).toBe('true');
-      expect(iframeSrc.searchParams.get('origin')).toBe(originUrl);
+      expect(new URL(iframeSrc.searchParams.get('origin')).origin).toBe(originUrl);
     });
   });
 
