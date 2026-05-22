@@ -150,9 +150,9 @@ transaction.unmount();
 Para criar o componente de click-form:
 
 ```javascript
-import ClickForm from '@clicksign/embedded/v3/click-form';
+import Form from '@clicksign/embedded/v3/click-form';
 
-const form = new ClickForm('CHAVE_DO_FORMULARIO');
+const form = new Form('CHAVE_DO_FORMULARIO');
 
 form.on('completed', ev => { console.log(ev); })
 

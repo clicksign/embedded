@@ -1,6 +1,6 @@
 import BaseEmbed from '../core/base-embed';
 
-export default class ClickForm extends BaseEmbed {
+export default class Form extends BaseEmbed {
   get params() {
     return `?embedded=true&origin=${this.origin}`;
   }

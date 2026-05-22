@@ -1,6 +1,6 @@
-import ClickForm from './embedded';
+import Form from './embedded';
 
-const containerElementId = 'clicksign-embedded-click-form';
+const containerElementId = 'clicksign-embedded-form';
 const formKey = 'foobar123';
 const endpoint = 'https://app.clicksign.com';
 
@@ -13,14 +13,14 @@ function createContainerElement() {
   document.body.appendChild(element);
 }
 
-describe('ClickForm', () => {
+describe('Form', () => {
   let instance;
 
   beforeEach(() => {
     vi.restoreAllMocks();
 
     createContainerElement();
-    instance = new ClickForm(formKey);
+    instance = new Form(formKey);
   });
 
   afterEach(() => {
