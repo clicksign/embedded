@@ -3,10 +3,10 @@ import ClickForm from './embedded';
 const containerElementId = 'clicksign-embedded-click-form';
 const formKey = 'foobar123';
 const endpoint = 'https://app.clicksign.com';
-const originUrl = `${window.location.protocol}://${window.location.host}`;
-const sourceUrl = `${endpoint}/app/click-form/forms/${formKey}?embedded=true&origin=${originUrl}`;
 
 function createContainerElement() {
+  document.body.innerHTML = '';
+
   const element = document.createElement('div');
 
   element.setAttribute('id', containerElementId);
@@ -14,13 +14,13 @@ function createContainerElement() {
 }
 
 describe('ClickForm', () => {
-  const instance = new ClickForm(formKey);
+  let instance;
 
   beforeEach(() => {
     vi.restoreAllMocks();
 
     createContainerElement();
-    instance.unmount();
+    instance = new ClickForm(formKey);
   });
 
   afterEach(() => {
@@ -28,10 +28,17 @@ describe('ClickForm', () => {
   });
 
   it('should initialize properly', () => {
+    const originUrl = `${window.location.protocol}://${window.location.host}`;
+
     expect(instance.key).toBe(formKey);
     expect(instance.origin).toBe(originUrl);
     expect(instance.endpoint).toBe(endpoint);
-    expect(instance.source).toBe(sourceUrl);
+
+    const source = new URL(instance.source);
+    expect(source.origin).toBe(endpoint);
+    expect(source.pathname).toBe(`/app/click-form/forms/${formKey}`);
+    expect(source.searchParams.get('embedded')).toBe('true');
+    expect(source.searchParams.get('origin')).toBe(originUrl);
   });
 
   describe('Mount', () => {
@@ -43,13 +50,19 @@ describe('ClickForm', () => {
     });
 
     it('should mount widget on the specified element', () => {
+      const originUrl = `${window.location.protocol}://${window.location.host}`;
+
       instance.mount(containerElementId);
 
       const iframeElement = document.getElementById(containerElementId).children[0];
+      const iframeSrc = new URL(iframeElement.src);
 
       expect(iframeElement).toBe(instance.iframe);
       expect(iframeElement.tagName).toBe('IFRAME');
-      expect(iframeElement).toHaveProperty('src', sourceUrl);
+      expect(iframeSrc.origin).toBe(endpoint);
+      expect(iframeSrc.pathname).toBe(`/app/click-form/forms/${formKey}`);
+      expect(iframeSrc.searchParams.get('embedded')).toBe('true');
+      expect(iframeSrc.searchParams.get('origin')).toBe(originUrl);
     });
   });
 
