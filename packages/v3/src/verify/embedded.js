@@ -7,6 +7,12 @@ export default class Verify extends BaseEmbed {
     this.custom = options.custom || null;
   }
 
+  #allowed = 'camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer;encrypted-media';
+
+  get allowed() {
+    return this.#allowed;
+  }
+
   start(id) {
     return this.mount(id);
   }

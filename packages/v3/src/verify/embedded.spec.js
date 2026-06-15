@@ -78,7 +78,7 @@ describe('Verify', () => {
 
       const iframeElement = document.getElementById(containerElementId).children[0];
 
-      expect(iframeElement.getAttribute('allow')).toBe('camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer');
+      expect(iframeElement.getAttribute('allow')).toBe('camera;geolocation;fullscreen;gyroscope;accelerometer;magnetometer;encrypted-media');
     });
 
     it('should set style iframe attribute with width and height 100%', () => {
