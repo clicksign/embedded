@@ -145,6 +145,32 @@ Para desmontar o `iframe` da DOM:
 transaction.unmount();
 ```
 
+### Click Forms (`v3-beta`)
+
+Para criar o componente de form:
+
+```javascript
+import Form from '@clicksign/embedded/v3/form';
+
+const form = new Form('CHAVE_DO_FORMULARIO');
+
+form.on('completed', ev => { console.log(ev); })
+
+form.mount('container-id');
+```
+
+Para apontar para um endpoint local:
+
+```javascript
+form.endpoint = 'http://localhost:3200';
+```
+
+Para desmontar o `iframe` da DOM:
+
+```javascript
+form.unmount();
+```
+
 ## Como contribuir
 
 Instale as dependencias com `pnpm install`.
