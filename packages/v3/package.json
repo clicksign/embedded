@@ -17,6 +17,6 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-vitest": "^0.5.4",
     "jsdom": "^26.1.0",
-    "vitest": "^2.1.9"
+    "vitest": "^4.1.0"
   }
 }
