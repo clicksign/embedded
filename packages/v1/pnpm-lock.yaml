@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       jasmine:
-        specifier: ^6.1.0
-        version: 6.1.0
+        specifier: ^6.2.0
+        version: 6.2.0
       jasmine-browser-runner:
         specifier: ^4.0.0
         version: 4.0.0(jasmine-core@6.1.0)
@@ -275,8 +275,11 @@ packages:
   jasmine-core@6.1.0:
     resolution: {integrity: sha512-p/tjBw58O6vxKIWMlrU+yys8lqR3+l3UrqwNTT7wpj+dQ7N4etQekFM8joI+cWzPDYqZf54kN+hLC1+s5TvZvg==}
 
-  jasmine@6.1.0:
-    resolution: {integrity: sha512-WPphPqEMY0uBRMjuhRHoVoxQNvJuxIMqz0yIcJ3k3oYxBedeGoH60/NXNgasxnx2FvfXrq5/r+2wssJ7WE8ABw==}
+  jasmine-core@6.2.0:
+    resolution: {integrity: sha512-b16WZG/pFEFj8qRW1ss7nDuNGYz9ji8BDGj7fJNrROauk5rj/diO3KPOuyIpcgUChdC+c0PfQ8iUk4nHE+EN4w==}
+
+  jasmine@6.2.0:
+    resolution: {integrity: sha512-dvYt7bidcu0JvvSbiUnSDW7UQQiflUwDr6C+5wzoZ0J7RY9u+UcoSIzyhMPj6fnU/tC7KinJ5QrjwD2Y9p4T4w==}
     hasBin: true
 
   jshint@2.13.6:
@@ -785,11 +788,13 @@ snapshots:
 
   jasmine-core@6.1.0: {}
 
-  jasmine@6.1.0:
+  jasmine-core@6.2.0: {}
+
+  jasmine@6.2.0:
     dependencies:
       '@jasminejs/reporters': 1.0.0
       glob: 13.0.6
-      jasmine-core: 6.1.0
+      jasmine-core: 6.2.0
 
   jshint@2.13.6:
     dependencies:
