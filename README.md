@@ -159,6 +159,16 @@ form.on('completed', ev => { console.log(ev); })
 form.mount('container-id');
 ```
 
+O construtor de `Form` aceita um segundo parâmetro (`options`). Para esconder a logo, passe `hide_logo` como `true`:
+
+```javascript
+const form = new Form('CHAVE_DO_FORMULARIO', {
+  hide_logo: true
+});
+```
+
+Sem `hide_logo`, ou com o valor `false`, a logo continua visível.
+
 Para apontar para um endpoint local:
 
 ```javascript
