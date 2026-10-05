@@ -38,7 +38,33 @@ describe('Form', () => {
     expect(source.origin).toBe(endpoint);
     expect(source.pathname).toBe(`/app/click_form/${formKey}`);
     expect(source.searchParams.get('embedded')).toBe('true');
+    expect(source.searchParams.get('hide_logo')).toBeNull();
     expect(new URL(source.searchParams.get('origin')).origin).toBe(originUrl);
+    expect(instance.hide_logo).toBe(false);
+  });
+
+  describe('Hide logo', () => {
+    it('should omit hide_logo from the query when the option is false', () => {
+      instance = new Form(formKey, { hide_logo: false });
+
+      const source = new URL(instance.source);
+
+      expect(instance.hide_logo).toBe(false);
+      expect(source.searchParams.get('embedded')).toBe('true');
+      expect(source.searchParams.get('hide_logo')).toBeNull();
+    });
+
+    it('should include hide_logo in the iframe source when the option is true', () => {
+      instance = new Form(formKey, { hide_logo: true });
+      instance.mount(containerElementId);
+
+      const iframeSrc = new URL(instance.iframe.src);
+
+      expect(instance.hide_logo).toBe(true);
+      expect(iframeSrc.pathname).toBe(`/app/click_form/${formKey}`);
+      expect(iframeSrc.searchParams.get('embedded')).toBe('true');
+      expect(iframeSrc.searchParams.get('hide_logo')).toBe('true');
+    });
   });
 
   describe('Mount', () => {
