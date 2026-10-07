@@ -13,10 +13,10 @@ importers:
         version: 6.1.0
       jasmine-browser-runner:
         specifier: ^4.0.0
-        version: 4.0.0(jasmine-core@6.1.0)
+        version: 4.0.0(jasmine-core@6.2.0)
       jasmine-core:
-        specifier: ^6.1.0
-        version: 6.1.0
+        specifier: ^6.2.0
+        version: 6.2.0
       jshint:
         specifier: ^2.13.6
         version: 2.13.6
@@ -274,6 +274,9 @@ packages:
 
   jasmine-core@6.1.0:
     resolution: {integrity: sha512-p/tjBw58O6vxKIWMlrU+yys8lqR3+l3UrqwNTT7wpj+dQ7N4etQekFM8joI+cWzPDYqZf54kN+hLC1+s5TvZvg==}
+
+  jasmine-core@6.2.0:
+    resolution: {integrity: sha512-b16WZG/pFEFj8qRW1ss7nDuNGYz9ji8BDGj7fJNrROauk5rj/diO3KPOuyIpcgUChdC+c0PfQ8iUk4nHE+EN4w==}
 
   jasmine@6.1.0:
     resolution: {integrity: sha512-WPphPqEMY0uBRMjuhRHoVoxQNvJuxIMqz0yIcJ3k3oYxBedeGoH60/NXNgasxnx2FvfXrq5/r+2wssJ7WE8ABw==}
@@ -770,13 +773,13 @@ snapshots:
       filelist: 1.0.6
       picocolors: 1.1.1
 
-  jasmine-browser-runner@4.0.0(jasmine-core@6.1.0):
+  jasmine-browser-runner@4.0.0(jasmine-core@6.2.0):
     dependencies:
       '@jasminejs/reporters': 1.0.0
       ejs: 3.1.10
       express: 5.2.1
       glob: 13.0.6
-      jasmine-core: 6.1.0
+      jasmine-core: 6.2.0
       selenium-webdriver: 4.41.0
     transitivePeerDependencies:
       - bufferutil
@@ -784,6 +787,8 @@ snapshots:
       - utf-8-validate
 
   jasmine-core@6.1.0: {}
+
+  jasmine-core@6.2.0: {}
 
   jasmine@6.1.0:
     dependencies:
